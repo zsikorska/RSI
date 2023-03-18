@@ -2,6 +2,9 @@
 using Grpc.Net.Client;
 using GrpcGreeterClient;
 
+
+MyData.Info();
+
 // The port number must match the port of the gRPC server.
 using var channel = GrpcChannel.ForAddress("https://localhost:7105");
 var client = new Greeter.GreeterClient(channel);
