@@ -23,6 +23,8 @@ namespace GrpcGreeterClient
 
             Console.WriteLine(GetLocalIPAddress());
 
+            Console.WriteLine();
+
         }
 
         public static string GetLocalIPAddress()
