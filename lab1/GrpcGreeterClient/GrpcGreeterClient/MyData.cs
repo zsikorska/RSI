@@ -13,8 +13,8 @@ namespace GrpcGreeterClient
     {
         public static void Info()
         {
-            Console.WriteLine("stud1, index1");
-            Console.WriteLine("stud2, index2");
+            Console.WriteLine("Piotr Łazik, 260371");
+            Console.WriteLine("Zuzanna Sikorska, 260464");
             Console.WriteLine(DateTime.Now.ToString("dd MMMM, HH:mm:ss", new CultureInfo("pl-PL")));
 
             Console.WriteLine(Environment.Version);

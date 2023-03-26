@@ -1,5 +1,7 @@
 using Grpc.Core;
 using GrpcGreeter;
+using System;
+using System.Globalization;
 
 namespace GrpcGreeter.Services
 {
@@ -15,7 +17,7 @@ namespace GrpcGreeter.Services
         {
             return Task.FromResult(new HelloReply
             {
-                Message = "Hello " + request.Name
+                Message = "Witaj " + request.Name + "\n" + DateTime.Now.ToString("dd MMMM, HH:mm:ss", new CultureInfo("pl-PL"))
             });
         }
     }
