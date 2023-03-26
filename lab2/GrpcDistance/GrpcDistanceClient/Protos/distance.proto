@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcDistanceClient";
+
+package distance;
+
+// The greeting service definition.
+service Distance {
+  // Sends a greeting
+  rpc WarsawDistance (WarsawRequest) returns (DistanceReply);
+  rpc TwoCityDistance (TwoCityRequest) returns (DistanceReply);
+  rpc ThreeCityDistance (ThreeCityRequest) returns (DistanceReply);
+}
+
+message WarsawRequest {
+  string city1 = 1;
+  double lat1 = 2;
+  double lon1 = 3;
+}
+
+message TwoCityRequest {
+  string city1 = 1;
+  double lat1 = 2;
+  double lon1 = 3;
+  string city2 = 4;
+  double lat2 = 5;
+  double lon2 = 6;
+}
+
+message ThreeCityRequest {
+  string city1 = 1;
+  double lat1 = 2;
+  double lon1 = 3;
+  string city2 = 4;
+  double lat2 = 5;
+  double lon2 = 6;
+  string city3 = 7;
+  double lat3 = 8;
+  double lon3 = 9;
+}
+
+message DistanceReply {
+  double distance = 1;
+}
