@@ -38,16 +38,26 @@ namespace GrpcDistance.Services
             });
         }
 
-        public double Distance(double lat1, double lon1, double lat2, double lon2)
+
+        public double Distance(double latitude1, double longitude1, double latitude2, double longitude2)
         {
-            double r = 6371;
-            double distance = 2 * r * Math.Asin(
-                Math.Sqrt(
-                    Math.Pow(Math.Sin((lat2-lat1)/2),2) + 
-                    Math.Cos(lat1) * Math.Cos(lat2) * Math.Pow(Math.Sin((lon2 - lon1) / 2), 2)
-                    )
-                );
+            double lat1 = (Math.PI / 180) * latitude1;
+            double lon1 = (Math.PI / 180) * longitude1;
+            double lat2 = (Math.PI / 180) * latitude2;
+            double lon2 = (Math.PI / 180) * longitude2;
+
+
+            double R = 6371;
+            double dLat = lat2 - lat1;
+            double dLon = lon2 - lon1;
+            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                    Math.Cos(lat1) * Math.Cos(lat2) *
+                            Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            double distance = R * c;
+
             return distance;
         }
+
     }
 }

@@ -32,7 +32,7 @@ void Menu()
         double lon1 = double.Parse(Console.ReadLine());
 
         var reply = client.WarsawDistance(new WarsawRequest { City1 = city1, Lat1 = lat1, Lon1 = lon1 });
-        Console.WriteLine("Dystans do Warszawy wynosi " + reply.Distance + " km");
+        Console.WriteLine("Dystans do Warszawy wynosi " + String.Format("{0:0.00}", reply.Distance) + " km");
         Menu();
     }
     else if(option == 2)
@@ -52,7 +52,7 @@ void Menu()
         double lon2 = double.Parse(Console.ReadLine());
 
         var reply = client.TwoCityDistance(new TwoCityRequest { City1 = city1, Lat1 = lat1, Lon1 = lon1, City2 = city2, Lat2 = lat2, Lon2 = lon2 });
-        Console.WriteLine("Dystans między miastami wynosi " + reply.Distance + " km");
+        Console.WriteLine("Dystans między miastami wynosi " + String.Format("{0:0.00}", reply.Distance) + " km");
         Menu();
     }
     else if(option == 3)
@@ -79,7 +79,7 @@ void Menu()
         double lon3 = double.Parse(Console.ReadLine());
 
         var reply = client.ThreeCityDistance(new ThreeCityRequest { City1 = city1, Lat1 = lat1, Lon1 = lon1, City2 = city2, Lat2 = lat2, Lon2 = lon2, City3 = city3, Lat3 = lat3, Lon3 = lon3 });
-        Console.WriteLine("Dystans między miastami wynosi " + reply.Distance + " km");
+        Console.WriteLine("Dystans między miastami wynosi " + String.Format("{0:0.00}", reply.Distance) + " km");
         Menu();
     }
     else if(option == 4)
