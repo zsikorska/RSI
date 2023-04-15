@@ -11,6 +11,9 @@ MyData.Info();
 using var channel = GrpcChannel.ForAddress("https://localhost:5001");
 var client = new ImageStreaming.ImageStreamingClient(channel);
 
+var path = "E:\\STUDIA\\6sem\\rsi\\laby\\RSI\\lab3\\GrpcImageStreaming\\GrpcImageStreamingClient\\images\\";
+var receivedPath = "E:\\STUDIA\\6sem\\rsi\\laby\\RSI\\lab3\\GrpcImageStreaming\\GrpcImageStreamingClient\\received\\";
+
 Menu();
 
 void Menu()
@@ -25,36 +28,61 @@ void Menu()
 
     if (option == 1)
     {
-        Console.Write("(1) Podaj nazwę miasta: ");
-        string city1 = Console.ReadLine();
-        Console.Write("(1) Podaj szerokość geograficzną: ");
-        double lat1 = double.Parse(Console.ReadLine());
-        Console.Write("(1) Podaj długość geograficzną: ");
-        double lon1 = double.Parse(Console.ReadLine());
+        Console.Write("Podaj nazwę pliku: ");
+        string fileName = Console.ReadLine();
 
-        var reply = client.WarsawDistance(new WarsawRequest { City1 = city1, Lat1 = lat1, Lon1 = lon1 });
-        Console.WriteLine("Dystans do Warszawy wynosi " + String.Format("{0:0.00}", reply.Distance) + " km");
+        try
+        {
+            using (var call = client.SendImageToServer())
+            {
+                var imageBytesBuffer = new byte[256];
+                using (var imageStream = File.OpenRead(path + fileName))
+                {
+                    int imageBytesRead;
+                    while ((imageBytesRead = await imageStream.ReadAsync(imageBytesBuffer, 0, imageBytesBuffer.Length)) > 0)
+                    {
+                        var imageData = new ImageData { Data = ByteString.CopyFrom(buffer, 0, bytesRead) };
+                        await call.RequestStream.WriteAsync(imageData);
+                    }
+                }
+                await call.RequestStream.CompleteAsync();
+                Console.WriteLine("Wysyłanie zakończone pomyślnie.");
+            }
+        }
+        catch
+        {
+            Console.WriteLine("Nie znaleziono pliku.");
+            Menu();
+        }
         Menu();
     }
 
     else if(option == 2)
     {
-        Console.Write("(1) Podaj nazwę miasta: ");
-        string city1 = Console.ReadLine();
-        Console.Write("(1) Podaj szerokość geograficzną: ");
-        double lat1 = double.Parse(Console.ReadLine());
-        Console.Write("(1) Podaj długość geograficzną: ");
-        double lon1 = double.Parse(Console.ReadLine());
+        Console.Write("Podaj nazwę pod jaką chcesz zapisać obrazek: ");
+        string fileName = Console.ReadLine();
 
-        Console.Write("(2) Podaj nazwę miasta: ");
-        string city2 = Console.ReadLine();
-        Console.Write("(2) Podaj szerokość geograficzną: ");
-        double lat2 = double.Parse(Console.ReadLine());
-        Console.Write("(2) Podaj długość geograficzną: ");
-        double lon2 = double.Parse(Console.ReadLine());
+        try
+        {
+            using (var call = client.SendImageToClient())
+            {
+                using (var receivedImageStream = File.Create(receivedPath + fileName)
+                {
+                    while (await call.ResponseStream.MoveNext())
+                    {
+                        var imageData = call.ResponseStream.Current;
+                        await receivedImageStream.WriteAsync(imageData.Data.ToByteArray());
 
-        var reply = client.TwoCityDistance(new TwoCityRequest { City1 = city1, Lat1 = lat1, Lon1 = lon1, City2 = city2, Lat2 = lat2, Lon2 = lon2 });
-        Console.WriteLine("Dystans między miastami wynosi " + String.Format("{0:0.00}", reply.Distance) + " km");
+                    }
+                }
+            }
+            Console.WriteLine("Zdjęcie odebrane pomyślnie.")
+        }
+        catch
+        {
+            Console.WriteLine("Nie znaleziono pliku.");
+            Menu();
+        }
         Menu();
     }
 
