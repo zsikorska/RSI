@@ -1,15 +1,15 @@
 using System;
 using System.Globalization;
 using Grpc.Core;
-using GrpcDistance;
+using GrpcImageStreaming;
 
 
-namespace GrpcDistance.Services
+namespace GrpcImageStreaming.Services
 {
-    public class DistanceService : Distance.DistanceBase
+    public class ImageStreamingService : ImageStreaming.ImageStreamingBase
     {
-        private readonly ILogger<DistanceService> _logger;
-        public DistanceService(ILogger<DistanceService> logger)
+        private readonly ILogger<ImageStreamingService> _logger;
+        public ImageStreamingService(ILogger<ImageStreamingService> logger)
         {
             _logger = logger;
         }
@@ -22,13 +22,6 @@ namespace GrpcDistance.Services
             });
         }
 
-        public override Task<DistanceReply> ThreeCityDistance(ThreeCityRequest request, ServerCallContext context)
-        {
-            return Task.FromResult(new DistanceReply
-            {
-                Distance = Distance(request.Lat1, request.Lon1, request.Lat2, request.Lon2) + Distance(request.Lat2, request.Lon2, request.Lat3, request.Lon3) 
-            });
-        }
 
         public override Task<DistanceReply> WarsawDistance(WarsawRequest request, ServerCallContext context)
         {

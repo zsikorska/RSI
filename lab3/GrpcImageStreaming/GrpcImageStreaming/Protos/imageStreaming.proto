@@ -1,15 +1,14 @@
 syntax = "proto3";
 
-option csharp_namespace = "GrpcDistance";
+option csharp_namespace = "GrpcImageStreaming";
 
-package distance;
+package imageStreaming;
 
-// The greeting service definition.
-service Distance {
-  // Sends a greeting
+// The images streaming service definition.
+service ImageStreaming {
+
   rpc WarsawDistance (WarsawRequest) returns (DistanceReply);
   rpc TwoCityDistance (TwoCityRequest) returns (DistanceReply);
-  rpc ThreeCityDistance (ThreeCityRequest) returns (DistanceReply);
 }
 
 message WarsawRequest {
@@ -25,18 +24,6 @@ message TwoCityRequest {
   string city2 = 4;
   double lat2 = 5;
   double lon2 = 6;
-}
-
-message ThreeCityRequest {
-  string city1 = 1;
-  double lat1 = 2;
-  double lon1 = 3;
-  string city2 = 4;
-  double lat2 = 5;
-  double lon2 = 6;
-  string city3 = 7;
-  double lat3 = 8;
-  double lon3 = 9;
 }
 
 message DistanceReply {

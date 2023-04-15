@@ -1,10 +1,10 @@
 ﻿{
   "profiles": {
-    "GrpcGreeterClient": {
+    "GrpcImageStreaming": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
-      "applicationUrl": "http://localhost:5025;https://localhost:7211",
+      "applicationUrl": "https://localhost:5091;https://localhost:7105",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

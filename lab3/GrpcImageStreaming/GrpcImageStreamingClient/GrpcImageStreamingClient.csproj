@@ -17,7 +17,7 @@
   </ItemGroup>
 
     <ItemGroup>
-		<Protobuf Include="Protos\distance.proto">
+		<Protobuf Include="Protos\imageStreaming.proto">
 		  <GrpcServices>Client</GrpcServices>
 		</Protobuf>
 	</ItemGroup>

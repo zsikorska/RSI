@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GrpcDistanceClient
+namespace GrpcImageStreamingClient
 {
     internal class MyData
     {

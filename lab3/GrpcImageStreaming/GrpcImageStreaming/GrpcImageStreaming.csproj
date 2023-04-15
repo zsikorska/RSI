@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\distance.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\imageStreaming.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
