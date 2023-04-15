@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Grpc.Net.Client;
 using GrpcImageStreamingClient;
+using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 
 Console.OutputEncoding = System.Text.Encoding.Unicode;
 Console.InputEncoding = System.Text.Encoding.Unicode;
@@ -16,7 +18,7 @@ var receivedPath = "E:\\STUDIA\\6sem\\rsi\\laby\\RSI\\lab3\\GrpcImageStreaming\\
 
 Menu();
 
-void Menu()
+async void Menu()
 {
     Console.WriteLine("Wybierz opcję:");
     Console.WriteLine("1) Wysyłanie obrazka do serwera");
@@ -46,6 +48,7 @@ void Menu()
                     }
                 }
                 await call.RequestStream.CompleteAsync();
+                await call.ResponseAsync;
                 Console.WriteLine("Wysyłanie zakończone pomyślnie.");
             }
         }
@@ -59,16 +62,16 @@ void Menu()
 
     else if(option == 2)
     {
-        Console.Write("Podaj nazwę pod jaką chcesz zapisać obrazek: ");
-        string fileName = Console.ReadLine();
+        //Console.Write("Podaj nazwę pod jaką chcesz zapisać obrazek: ");
+        //string fileName = Console.ReadLine();
 
         try
         {
-            using (var call = client.SendImageToClient())
+            using (var call = client.SendImageToClient(new Empty()))
             {
-                using (var receivedImageStream = File.Create(receivedPath + fileName)
+                using (var receivedImageStream = File.Create(receivedPath + "c.jpg"))
                 {
-                    while (await call.ResponseStream.MoveNext())
+                    while (await call.ResponseStream.MoveNext(CancellationToken.None))
                     {
                         var imageData = call.ResponseStream.Current;
                         await receivedImageStream.WriteAsync(imageData.Data.ToByteArray());
@@ -76,7 +79,7 @@ void Menu()
                     }
                 }
             }
-            Console.WriteLine("Zdjęcie odebrane pomyślnie.")
+            Console.WriteLine("Zdjęcie odebrane pomyślnie.");
         }
         catch
         {

@@ -4,8 +4,10 @@ option csharp_namespace = "GrpcImageStreamingClient";
 
 package imageStreaming;
 
+import "google/protobuf/empty.proto";
+
 // The image streaming service definition.
-service ImageStreamingService {
+service ImageStreaming {
 
   rpc SendImageToServer (stream ImageData) returns (google.protobuf.Empty);
   rpc SendImageToClient (google.protobuf.Empty) returns (stream ImageData);

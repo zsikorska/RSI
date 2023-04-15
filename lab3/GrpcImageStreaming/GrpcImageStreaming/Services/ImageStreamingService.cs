@@ -3,10 +3,8 @@ using System.Globalization;
 using System.Threading.Tasks;
 using Grpc.Core;
 using GrpcImageStreaming;
-
-var path = "E:\\STUDIA\\6sem\\rsi\\laby\\RSI\\lab3\\GrpcImageStreaming\\GrpcImageStreaming\\images\\";
-var receivedPath = "E:\\STUDIA\\6sem\\rsi\\laby\\RSI\\lab3\\GrpcImageStreaming\\GrpcImageStreaming\\received\\";
-var fileName = "c.jpg";
+using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 
 
 namespace GrpcImageStreaming.Services
@@ -20,25 +18,31 @@ namespace GrpcImageStreaming.Services
             _logger = logger;
         }
 
-        public override async Task SendImageToServer(IAsyncStreamReader<ImageData> requestStream, ServerCallContext context)
+        private String path = "E:\\STUDIA\\6sem\\rsi\\laby\\RSI\\lab3\\GrpcImageStreaming\\GrpcImageStreaming\\images\\";
+        private String receivedPath = "E:\\STUDIA\\6sem\\rsi\\laby\\RSI\\lab3\\GrpcImageStreaming\\GrpcImageStreaming\\received\\";
+        private String fileName = "c.jpg";
+
+        public override async Task<Empty> SendImageToServer(IAsyncStreamReader<ImageData> requestStream, ServerCallContext context)
         {
             try
             {
-                using (var receivedImageStream = File.Create(receivedPath + fileName)
-                    {
+                using (var receivedImageStream = File.Create(receivedPath + fileName))
+                {
                     while (await requestStream.MoveNext())
                     {
-                        var imageData = call.ResponseStream.Current;
+                        var imageData = requestStream.Current;
                         await receivedImageStream.WriteAsync(imageData.Data.ToByteArray());
 
                     }
                 }
-                Console.WriteLine("Zdjêcie odebrane pomyœlnie.")
+                Console.WriteLine("Zdjêcie odebrane pomyœlnie.");
         }
             catch
             {
                 Console.WriteLine("Nie znaleziono pliku.");
             }
+
+            return new Empty();
         }
 
 
@@ -52,7 +56,7 @@ namespace GrpcImageStreaming.Services
                     int imageBytesRead;
                     while ((imageBytesRead = await imageStream.ReadAsync(imageBytesBuffer, 0, imageBytesBuffer.Length)) > 0)
                     {
-                        var imageData = new ImageData { Data = ByteString.CopyFrom(imageBytesBuffer, 0, bytesRead) };
+                        var imageData = new ImageData { Data = ByteString.CopyFrom(imageBytesBuffer, 0, imageBytesRead) };
                         await responseStream.WriteAsync(imageData);
                     }
                 }
