@@ -41,7 +41,7 @@ void Menu()
                     int imageBytesRead;
                     while ((imageBytesRead = await imageStream.ReadAsync(imageBytesBuffer, 0, imageBytesBuffer.Length)) > 0)
                     {
-                        var imageData = new ImageData { Data = ByteString.CopyFrom(buffer, 0, bytesRead) };
+                        var imageData = new ImageData { Data = ByteString.CopyFrom(imageBytesBuffer, 0, imageBytesRead) };
                         await call.RequestStream.WriteAsync(imageData);
                     }
                 }

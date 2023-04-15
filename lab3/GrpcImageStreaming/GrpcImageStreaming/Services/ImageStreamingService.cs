@@ -1,7 +1,12 @@
 using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using Grpc.Core;
 using GrpcImageStreaming;
+
+var path = "E:\\STUDIA\\6sem\\rsi\\laby\\RSI\\lab3\\GrpcImageStreaming\\GrpcImageStreaming\\images\\";
+var receivedPath = "E:\\STUDIA\\6sem\\rsi\\laby\\RSI\\lab3\\GrpcImageStreaming\\GrpcImageStreaming\\received\\";
+var fileName = "c.jpg";
 
 
 namespace GrpcImageStreaming.Services
@@ -9,47 +14,54 @@ namespace GrpcImageStreaming.Services
     public class ImageStreamingService : ImageStreaming.ImageStreamingBase
     {
         private readonly ILogger<ImageStreamingService> _logger;
+
         public ImageStreamingService(ILogger<ImageStreamingService> logger)
         {
             _logger = logger;
         }
 
-        public override Task<DistanceReply> TwoCityDistance(TwoCityRequest request, ServerCallContext context)
+        public override async Task SendImageToServer(IAsyncStreamReader<ImageData> requestStream, ServerCallContext context)
         {
-            return Task.FromResult(new DistanceReply
-            { 
-                Distance = Distance(request.Lat1, request.Lon1, request.Lat2, request.Lon2)
-            });
-        }
-
-
-        public override Task<DistanceReply> WarsawDistance(WarsawRequest request, ServerCallContext context)
-        {
-            return Task.FromResult(new DistanceReply
+            try
             {
-                Distance = Distance(request.Lat1, request.Lon1, 52.231651, 21.006245)
-            });
+                using (var receivedImageStream = File.Create(receivedPath + fileName)
+                    {
+                    while (await requestStream.MoveNext())
+                    {
+                        var imageData = call.ResponseStream.Current;
+                        await receivedImageStream.WriteAsync(imageData.Data.ToByteArray());
+
+                    }
+                }
+                Console.WriteLine("Zdjêcie odebrane pomyœlnie.")
+        }
+            catch
+            {
+                Console.WriteLine("Nie znaleziono pliku.");
+            }
         }
 
 
-        public double Distance(double latitude1, double longitude1, double latitude2, double longitude2)
+        public override async Task SendImageToClient(Empty request, IServerStreamWriter<ImageData> responseStream, ServerCallContext context)
         {
-            double lat1 = (Math.PI / 180) * latitude1;
-            double lon1 = (Math.PI / 180) * longitude1;
-            double lat2 = (Math.PI / 180) * latitude2;
-            double lon2 = (Math.PI / 180) * longitude2;
-
-
-            double R = 6371;
-            double dLat = lat2 - lat1;
-            double dLon = lon2 - lon1;
-            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                    Math.Cos(lat1) * Math.Cos(lat2) *
-                            Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
-            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-            double distance = R * c;
-
-            return distance;
+            try
+            {
+                var imageBytesBuffer = new byte[256];
+                using (var imageStream = File.OpenRead(path + fileName))
+                {
+                    int imageBytesRead;
+                    while ((imageBytesRead = await imageStream.ReadAsync(imageBytesBuffer, 0, imageBytesBuffer.Length)) > 0)
+                    {
+                        var imageData = new ImageData { Data = ByteString.CopyFrom(imageBytesBuffer, 0, bytesRead) };
+                        await responseStream.WriteAsync(imageData);
+                    }
+                }
+                Console.WriteLine("Wysy³anie zakoñczone pomyœlnie.");
+            }
+            catch
+            {
+                Console.WriteLine("Nie znaleziono pliku.");
+            }
         }
 
     }
