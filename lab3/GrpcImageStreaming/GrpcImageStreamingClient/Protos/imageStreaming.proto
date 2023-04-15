@@ -4,28 +4,14 @@ option csharp_namespace = "GrpcImageStreamingClient";
 
 package imageStreaming;
 
-// The images streaming service definition.
-service ImageStreaming {
+// The image streaming service definition.
+service ImageStreamingService {
 
-  rpc WarsawDistance (WarsawRequest) returns (DistanceReply);
-  rpc TwoCityDistance (TwoCityRequest) returns (DistanceReply);
+  rpc SendImageToServer (stream ImageData) returns (google.protobuf.Empty);
+  rpc SendImageToClient (google.protobuf.Empty) returns (stream ImageData);
 }
 
-message WarsawRequest {
-  string city1 = 1;
-  double lat1 = 2;
-  double lon1 = 3;
-}
-
-message TwoCityRequest {
-  string city1 = 1;
-  double lat1 = 2;
-  double lon1 = 3;
-  string city2 = 4;
-  double lat2 = 5;
-  double lon2 = 6;
-}
-
-message DistanceReply {
-  double distance = 1;
+message ImageData {
+  //byte array representing the image
+  bytes data = 1;
 }
