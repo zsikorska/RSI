@@ -10,7 +10,11 @@ import "google/protobuf/empty.proto";
 service ImageStreaming {
 
   rpc SendImageToServer (stream ImageData) returns (google.protobuf.Empty);
-  rpc SendImageToClient (google.protobuf.Empty) returns (stream ImageData);
+  rpc SendImageToClient (ImageName) returns (stream ImageData);
+}
+
+message ImageName {
+	string filename = 1;
 }
 
 message ImageData {

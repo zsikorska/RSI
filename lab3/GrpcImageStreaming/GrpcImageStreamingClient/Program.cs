@@ -10,13 +10,12 @@ Console.OutputEncoding = System.Text.Encoding.Unicode;
 Console.InputEncoding = System.Text.Encoding.Unicode;
 
 MyData.Info();
-
 using var channel = GrpcChannel.ForAddress("https://localhost:5001");
 var client = new ImageStreaming.ImageStreamingClient(channel);
 
-var path = "E:\\STUDIA\\6sem\\rsi\\laby\\RSI\\lab3\\GrpcImageStreaming\\GrpcImageStreamingClient\\images\\";
-var receivedPath = "E:\\STUDIA\\6sem\\rsi\\laby\\RSI\\lab3\\GrpcImageStreaming\\GrpcImageStreamingClient\\received\\";
-
+var root = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+var path = Path.Combine(root, "images");
+var receivedPath = Path.Combine(root, "received");
 await Menu();
 
 async Task Menu()
@@ -40,7 +39,7 @@ async Task Menu()
             using (var call = client.SendImageToServer())
             {
                 var imageBytesBuffer = new byte[256];
-                using (var imageStream = File.OpenRead(path + fileName + ".jpg"))
+                using (var imageStream = File.OpenRead(Path.Combine(path, fileName + ".jpg")))
                 {
                     int imageBytesRead;
                     while ((imageBytesRead = await imageStream.ReadAsync(imageBytesBuffer, 0, imageBytesBuffer.Length)) > 0)
@@ -62,16 +61,18 @@ async Task Menu()
         await Menu();
     }
 
-    else if(option == "2")
+    else if (option == "2")
     {
         Console.Write("Podaj nazwę pod jaką chcesz zapisać obrazek: ");
         string fileName = Console.ReadLine();
 
+        Console.Write("Podaj nazwę obrazka na serwerze: ");
+        string serverFileName = Console.ReadLine() + ".jpg";
         try
         {
-            using (var call = client.SendImageToClient(new Empty()))
+            using (var call = client.SendImageToClient(new ImageName { Filename = serverFileName }))
             {
-                using (var receivedImageStream = File.Create(receivedPath + fileName + ".jpg"))
+                using (var receivedImageStream = File.Create(Path.Combine(receivedPath, fileName + ".jpg")))
                 {
                     while (await call.ResponseStream.MoveNext(CancellationToken.None))
                     {
@@ -91,7 +92,7 @@ async Task Menu()
         await Menu();
     }
 
-    else if(option == "3")
+    else if (option == "3")
     {
         Environment.Exit(0);
     }

@@ -18,16 +18,17 @@ namespace GrpcImageStreaming.Services
             _logger = logger;
         }
 
-        private String path = "E:\\STUDIA\\6sem\\rsi\\laby\\RSI\\lab3\\GrpcImageStreaming\\GrpcImageStreaming\\images\\";
-        private String receivedPath = "E:\\STUDIA\\6sem\\rsi\\laby\\RSI\\lab3\\GrpcImageStreaming\\GrpcImageStreaming\\received\\";
-        private Random random = new Random();
+        private static String mainPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+        private static String path = Path.Combine(mainPath, "images");
+        private static String receivedPath = Path.Combine(mainPath, "received");
 
         public override async Task<Empty> SendImageToServer(IAsyncStreamReader<ImageData> requestStream, ServerCallContext context)
         {
-            String fileName = random.Next(1, 100000).ToString() + ".jpg";
+            String fileName = DateTime.Now.ToString("yyyyMMddHHmmssffff") + ".jpg";
+            
             try
             {
-                using (var receivedImageStream = File.Create(receivedPath + fileName))
+                using (var receivedImageStream = File.Create(Path.Combine(receivedPath, fileName)))
                 {
                     while (await requestStream.MoveNext())
                     {
@@ -36,7 +37,7 @@ namespace GrpcImageStreaming.Services
 
                     }
                 }
-                Console.WriteLine("ZdjÍcie odebrane pomyúlnie.\n");
+                Console.WriteLine("Zdjƒôcie odebrane pomy≈õlnie.\n");
         }
             catch
             {
@@ -47,13 +48,14 @@ namespace GrpcImageStreaming.Services
         }
 
 
-        public override async Task SendImageToClient(Empty request, IServerStreamWriter<ImageData> responseStream, ServerCallContext context)
+        public override async Task SendImageToClient(ImageName request, IServerStreamWriter<ImageData> responseStream, ServerCallContext context)
         {
-            String fileName = "c.jpg";
+            String fileName = request.Filename;
+            //String fileName = "c.jpg";
             try
             {
                 var imageBytesBuffer = new byte[256];
-                using (var imageStream = File.OpenRead(path + fileName))
+                using (var imageStream = File.OpenRead(Path.Combine(path, fileName)))
                 {
                     int imageBytesRead;
                     while ((imageBytesRead = await imageStream.ReadAsync(imageBytesBuffer, 0, imageBytesBuffer.Length)) > 0)
@@ -62,7 +64,7 @@ namespace GrpcImageStreaming.Services
                         await responseStream.WriteAsync(imageData);
                     }
                 }
-                Console.WriteLine("Wysy≥anie zakoÒczone pomyúlnie.\n");
+                Console.WriteLine("Wysy≈Çanie zako≈Ñczone pomy≈õlnie.\n");
             }
             catch
             {
