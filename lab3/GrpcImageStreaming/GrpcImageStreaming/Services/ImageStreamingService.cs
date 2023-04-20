@@ -18,6 +18,8 @@ namespace GrpcImageStreaming.Services
             _logger = logger;
         }
 
+
+        private const int BUFFER_SIZE = 2048;
         private static String mainPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
         private static String path = Path.Combine(mainPath, "images");
         private static String receivedPath = Path.Combine(mainPath, "received");
@@ -28,15 +30,19 @@ namespace GrpcImageStreaming.Services
             
             try
             {
+                var counter = 0;
                 using (var receivedImageStream = File.Create(Path.Combine(receivedPath, fileName)))
                 {
                     while (await requestStream.MoveNext())
                     {
                         var imageData = requestStream.Current;
                         await receivedImageStream.WriteAsync(imageData.Data.ToByteArray());
+                        counter++;
+                        Console.WriteLine($"Odebrano pakiet o numerze {counter}");
 
                     }
                 }
+                Console.WriteLine("Odebrano " + counter + " pakietów.");
                 Console.WriteLine("Zdjęcie odebrane pomyślnie.\n");
         }
             catch
@@ -54,7 +60,8 @@ namespace GrpcImageStreaming.Services
             //String fileName = "c.jpg";
             try
             {
-                var imageBytesBuffer = new byte[256];
+                var imageBytesBuffer = new byte[BUFFER_SIZE];
+                var counter = 0;
                 using (var imageStream = File.OpenRead(Path.Combine(path, fileName)))
                 {
                     int imageBytesRead;
@@ -62,8 +69,11 @@ namespace GrpcImageStreaming.Services
                     {
                         var imageData = new ImageData { Data = ByteString.CopyFrom(imageBytesBuffer, 0, imageBytesRead) };
                         await responseStream.WriteAsync(imageData);
+                        counter++;
+                        Console.WriteLine($"Wysłano pakiet o numerze {counter}");
                     }
                 }
+                Console.WriteLine("Wysłano " + counter + " pakietów.");
                 Console.WriteLine("Wysyłanie zakończone pomyślnie.\n");
             }
             catch
