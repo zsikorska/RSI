@@ -5,6 +5,7 @@ using System.Net.Security;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WcfService
 {
@@ -12,9 +13,17 @@ namespace WcfService
     public interface ICalculator
     {
         [OperationContract]
-        double Add(double val1, double val2);
+        int iAdd(int val1, int val2);
         [OperationContract]
-        double Multiply(double val1, double val2);
+        int iSub(int val1, int val2);
+        [OperationContract]
+        int iMul(int val1, int val2);
+        [OperationContract]
+        int iDiv(int val1, int val2);
+        [OperationContract]
+        int iMod(int val1, int val2);
+        [OperationContract]
+        Task<(int, int)> CountAndMaxPrime(int l1, int l2);
     }
 
     // Użyj kontraktu danych, jak pokazano w poniższym przykładzie, aby dodać typy złożone do operacji usługi.

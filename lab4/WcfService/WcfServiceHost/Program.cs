@@ -9,6 +9,9 @@ namespace WcfServiceHost
     {
         static void Main(string[] args)
         {
+            
+            MyData.Info();
+
             Uri baseAddress = new Uri("http://localhost:5000/WcfService");
             ServiceHost myHost = new ServiceHost(typeof(MyCalculator), baseAddress);
             
@@ -35,16 +38,17 @@ namespace WcfServiceHost
             try
             {
                 myHost.Open();
-                Console.WriteLine("Service is started and running.");
+                Console.WriteLine();
+                Console.WriteLine("Serwis wystartował i działa");
 
-                Console.WriteLine("Press <ENTER> to STOP service...");
+                Console.WriteLine("Wciśnij <ENTER> aby zatrzymać serwis");
                 Console.WriteLine();
                 Console.ReadLine();
                 myHost.Close();
             }
             catch (CommunicationException ce)
             {
-                Console.WriteLine("Exception occured: {0}", ce.Message);
+                Console.WriteLine("Wystapił wyjątek: {0}", ce.Message);
                 myHost.Abort();
             }
         }
