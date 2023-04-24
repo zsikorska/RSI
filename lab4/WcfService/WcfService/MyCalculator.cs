@@ -121,12 +121,14 @@ namespace WcfService
 
             if (upperBound < lowerBound)
             {
-                throw new FaultException<ArgumentException>(new ArgumentException(), "Górna granica zakresu nie może byc mniejsza niż dolna.");
+                Console.WriteLine("Błąd: górna granica zakresu nie może być mniejsza niż dolna.");
+                throw new FaultException("Górna granica zakresu nie może byc mniejsza niż dolna.");
             }
 
             if (lowerBound <= 0 || upperBound <= 0)
             {
-                throw new FaultException<ArgumentException>(new ArgumentException(), "Dolna i górna granica zakresu muszą być większe od 0.");
+                Console.WriteLine("Błąd: dolna i górna granica zakresu muszą być większe od 0.");
+                throw new FaultException("Dolna i górna granica zakresu muszą być większe od 0.");
             }
 
             var isPrime = new bool[upperBound + 1];

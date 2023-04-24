@@ -25,21 +25,20 @@ namespace WcfClient
         }
 
 
-        static void Menu()
+        static async void Menu()
         {
             int num = 0;
             while (num != 7)
             {
-                Console.WriteLine("Choose an operation:");
-                Console.WriteLine("1. Addition");
-                Console.WriteLine("2. Subtraction");
-                Console.WriteLine("3. Multiplication");
-                Console.WriteLine("4. Division");
-                Console.WriteLine("5. Modulo");
-                Console.WriteLine("6. Count and find max prime numbers in range");
-                Console.WriteLine("7. Exit");
-                Console.WriteLine();
-                Console.Write("Your choice: ");
+                Console.WriteLine("Wybierz opcję:");
+                Console.WriteLine("1) Dodawanie");
+                Console.WriteLine("2) Odejmowanie");
+                Console.WriteLine("3) Mnożenie");
+                Console.WriteLine("4) Dzielenie");
+                Console.WriteLine("5) Modulo");
+                Console.WriteLine("6) Zliczanie liczb pierwszych i największa liczba");
+                Console.WriteLine("7) Wyjście \n");
+                Console.Write("Twój wybór: ");
                 num = InputNumber();
                 Console.WriteLine();
 
@@ -115,18 +114,7 @@ namespace WcfClient
                 }
                 else if (num == 6)
                 {
-                    try
-                    {
-                        (int num1, int num2) = InputNumbers();
-                        (int count, int max) = myClient2.CountAndMaxPrimeAsync(num1, num2).Result;
-                        Console.WriteLine($"Liczba liczb pierwszych z zakresu [{num1}, {num2}]: " + count);
-                        Console.WriteLine($"Najwieksza liczba pierwsza z zakresu [{num1}, {num2}]: " + max);
-
-                    }
-                    catch (FaultException ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
+                    CountPrimes();
                     Console.WriteLine();
                 }
                 else if (num == 7)
@@ -141,6 +129,22 @@ namespace WcfClient
                 }
             }
 
+        }
+
+        static async Task CountPrimes()
+        {
+            try
+            {
+                (int num1, int num2) = InputNumbers();
+                (int count, int max) = await myClient2.CountAndMaxPrimeAsync(num1, num2);
+                Console.WriteLine($"Liczba liczb pierwszych z zakresu [{num1}, {num2}]: " + count);
+                Console.WriteLine($"Najwieksza liczba pierwsza z zakresu [{num1}, {num2}]: " + max);
+
+            }
+            catch (FaultException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         static int InputNumber()
