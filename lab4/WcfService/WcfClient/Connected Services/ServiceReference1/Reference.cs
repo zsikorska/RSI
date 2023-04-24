@@ -15,23 +15,41 @@ namespace WcfClient.ServiceReference1 {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.ICalculator")]
     public interface ICalculator {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/Add", ReplyAction="http://tempuri.org/ICalculator/AddResponse")]
-        double Add(double val1, double val2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/iAdd", ReplyAction="http://tempuri.org/ICalculator/iAddResponse")]
+        int iAdd(int val1, int val2);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/Add", ReplyAction="http://tempuri.org/ICalculator/AddResponse")]
-        System.Threading.Tasks.Task<double> AddAsync(double val1, double val2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/iAdd", ReplyAction="http://tempuri.org/ICalculator/iAddResponse")]
+        System.Threading.Tasks.Task<int> iAddAsync(int val1, int val2);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/Multiply", ReplyAction="http://tempuri.org/ICalculator/MultiplyResponse")]
-        double Multiply(double val1, double val2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/iSub", ReplyAction="http://tempuri.org/ICalculator/iSubResponse")]
+        int iSub(int val1, int val2);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/Multiply", ReplyAction="http://tempuri.org/ICalculator/MultiplyResponse")]
-        System.Threading.Tasks.Task<double> MultiplyAsync(double val1, double val2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/iSub", ReplyAction="http://tempuri.org/ICalculator/iSubResponse")]
+        System.Threading.Tasks.Task<int> iSubAsync(int val1, int val2);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/HMultiply", ReplyAction="http://tempuri.org/ICalculator/HMultiplyResponse")]
-        double HMultiply(double val1, double val2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/iMul", ReplyAction="http://tempuri.org/ICalculator/iMulResponse")]
+        int iMul(int val1, int val2);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/HMultiply", ReplyAction="http://tempuri.org/ICalculator/HMultiplyResponse")]
-        System.Threading.Tasks.Task<double> HMultiplyAsync(double val1, double val2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/iMul", ReplyAction="http://tempuri.org/ICalculator/iMulResponse")]
+        System.Threading.Tasks.Task<int> iMulAsync(int val1, int val2);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/iDiv", ReplyAction="http://tempuri.org/ICalculator/iDivResponse")]
+        int iDiv(int val1, int val2);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/iDiv", ReplyAction="http://tempuri.org/ICalculator/iDivResponse")]
+        System.Threading.Tasks.Task<int> iDivAsync(int val1, int val2);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/iMod", ReplyAction="http://tempuri.org/ICalculator/iModResponse")]
+        int iMod(int val1, int val2);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/iMod", ReplyAction="http://tempuri.org/ICalculator/iModResponse")]
+        System.Threading.Tasks.Task<int> iModAsync(int val1, int val2);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/CountAndMaxPrime", ReplyAction="http://tempuri.org/ICalculator/CountAndMaxPrimeResponse")]
+        System.ValueTuple<int, int> CountAndMaxPrime(int l1, int l2);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculator/CountAndMaxPrime", ReplyAction="http://tempuri.org/ICalculator/CountAndMaxPrimeResponse")]
+        System.Threading.Tasks.Task<System.ValueTuple<int, int>> CountAndMaxPrimeAsync(int l1, int l2);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -61,28 +79,52 @@ namespace WcfClient.ServiceReference1 {
                 base(binding, remoteAddress) {
         }
         
-        public double Add(double val1, double val2) {
-            return base.Channel.Add(val1, val2);
+        public int iAdd(int val1, int val2) {
+            return base.Channel.iAdd(val1, val2);
         }
         
-        public System.Threading.Tasks.Task<double> AddAsync(double val1, double val2) {
-            return base.Channel.AddAsync(val1, val2);
+        public System.Threading.Tasks.Task<int> iAddAsync(int val1, int val2) {
+            return base.Channel.iAddAsync(val1, val2);
         }
         
-        public double Multiply(double val1, double val2) {
-            return base.Channel.Multiply(val1, val2);
+        public int iSub(int val1, int val2) {
+            return base.Channel.iSub(val1, val2);
         }
         
-        public System.Threading.Tasks.Task<double> MultiplyAsync(double val1, double val2) {
-            return base.Channel.MultiplyAsync(val1, val2);
+        public System.Threading.Tasks.Task<int> iSubAsync(int val1, int val2) {
+            return base.Channel.iSubAsync(val1, val2);
         }
         
-        public double HMultiply(double val1, double val2) {
-            return base.Channel.HMultiply(val1, val2);
+        public int iMul(int val1, int val2) {
+            return base.Channel.iMul(val1, val2);
         }
         
-        public System.Threading.Tasks.Task<double> HMultiplyAsync(double val1, double val2) {
-            return base.Channel.HMultiplyAsync(val1, val2);
+        public System.Threading.Tasks.Task<int> iMulAsync(int val1, int val2) {
+            return base.Channel.iMulAsync(val1, val2);
+        }
+        
+        public int iDiv(int val1, int val2) {
+            return base.Channel.iDiv(val1, val2);
+        }
+        
+        public System.Threading.Tasks.Task<int> iDivAsync(int val1, int val2) {
+            return base.Channel.iDivAsync(val1, val2);
+        }
+        
+        public int iMod(int val1, int val2) {
+            return base.Channel.iMod(val1, val2);
+        }
+        
+        public System.Threading.Tasks.Task<int> iModAsync(int val1, int val2) {
+            return base.Channel.iModAsync(val1, val2);
+        }
+        
+        public System.ValueTuple<int, int> CountAndMaxPrime(int l1, int l2) {
+            return base.Channel.CountAndMaxPrime(l1, l2);
+        }
+        
+        public System.Threading.Tasks.Task<System.ValueTuple<int, int>> CountAndMaxPrimeAsync(int l1, int l2) {
+            return base.Channel.CountAndMaxPrimeAsync(l1, l2);
         }
     }
 }

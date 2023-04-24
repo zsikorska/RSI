@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,10 +52,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CallbackService\CallbackService.csproj">
-      <Project>{d4266832-cb89-4570-98c0-ffc07826ccd3}</Project>
-      <Name>CallbackService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WcfService\WcfService.csproj">
       <Project>{37ac0655-0dfd-4cd4-8c44-d6b5fcd09ed1}</Project>
       <Name>WcfService</Name>

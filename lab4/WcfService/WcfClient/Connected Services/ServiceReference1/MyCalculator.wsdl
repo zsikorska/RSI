@@ -11,44 +11,75 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:5000/WcfService?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:5000/WcfService?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:5000/WcfService?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="ICalculator_Add_InputMessage">
-    <wsdl:part name="parameters" element="tns:Add" />
+  <wsdl:message name="ICalculator_iAdd_InputMessage">
+    <wsdl:part name="parameters" element="tns:iAdd" />
   </wsdl:message>
-  <wsdl:message name="ICalculator_Add_OutputMessage">
-    <wsdl:part name="parameters" element="tns:AddResponse" />
+  <wsdl:message name="ICalculator_iAdd_OutputMessage">
+    <wsdl:part name="parameters" element="tns:iAddResponse" />
   </wsdl:message>
-  <wsdl:message name="ICalculator_Multiply_InputMessage">
-    <wsdl:part name="parameters" element="tns:Multiply" />
+  <wsdl:message name="ICalculator_iSub_InputMessage">
+    <wsdl:part name="parameters" element="tns:iSub" />
   </wsdl:message>
-  <wsdl:message name="ICalculator_Multiply_OutputMessage">
-    <wsdl:part name="parameters" element="tns:MultiplyResponse" />
+  <wsdl:message name="ICalculator_iSub_OutputMessage">
+    <wsdl:part name="parameters" element="tns:iSubResponse" />
   </wsdl:message>
-  <wsdl:message name="ICalculator_HMultiply_InputMessage">
-    <wsdl:part name="parameters" element="tns:HMultiply" />
+  <wsdl:message name="ICalculator_iMul_InputMessage">
+    <wsdl:part name="parameters" element="tns:iMul" />
   </wsdl:message>
-  <wsdl:message name="ICalculator_HMultiply_OutputMessage">
-    <wsdl:part name="parameters" element="tns:HMultiplyResponse" />
+  <wsdl:message name="ICalculator_iMul_OutputMessage">
+    <wsdl:part name="parameters" element="tns:iMulResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICalculator_iDiv_InputMessage">
+    <wsdl:part name="parameters" element="tns:iDiv" />
+  </wsdl:message>
+  <wsdl:message name="ICalculator_iDiv_OutputMessage">
+    <wsdl:part name="parameters" element="tns:iDivResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICalculator_iMod_InputMessage">
+    <wsdl:part name="parameters" element="tns:iMod" />
+  </wsdl:message>
+  <wsdl:message name="ICalculator_iMod_OutputMessage">
+    <wsdl:part name="parameters" element="tns:iModResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICalculator_CountAndMaxPrime_InputMessage">
+    <wsdl:part name="parameters" element="tns:CountAndMaxPrime" />
+  </wsdl:message>
+  <wsdl:message name="ICalculator_CountAndMaxPrime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CountAndMaxPrimeResponse" />
   </wsdl:message>
   <wsdl:portType name="ICalculator">
-    <wsdl:operation name="Add">
-      <wsdl:input wsaw:Action="http://tempuri.org/ICalculator/Add" message="tns:ICalculator_Add_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ICalculator/AddResponse" message="tns:ICalculator_Add_OutputMessage" />
+    <wsdl:operation name="iAdd">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICalculator/iAdd" message="tns:ICalculator_iAdd_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICalculator/iAddResponse" message="tns:ICalculator_iAdd_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="Multiply">
-      <wsdl:input wsaw:Action="http://tempuri.org/ICalculator/Multiply" message="tns:ICalculator_Multiply_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ICalculator/MultiplyResponse" message="tns:ICalculator_Multiply_OutputMessage" />
+    <wsdl:operation name="iSub">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICalculator/iSub" message="tns:ICalculator_iSub_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICalculator/iSubResponse" message="tns:ICalculator_iSub_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="HMultiply">
-      <wsdl:input wsaw:Action="http://tempuri.org/ICalculator/HMultiply" message="tns:ICalculator_HMultiply_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ICalculator/HMultiplyResponse" message="tns:ICalculator_HMultiply_OutputMessage" />
+    <wsdl:operation name="iMul">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICalculator/iMul" message="tns:ICalculator_iMul_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICalculator/iMulResponse" message="tns:ICalculator_iMul_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="iDiv">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICalculator/iDiv" message="tns:ICalculator_iDiv_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICalculator/iDivResponse" message="tns:ICalculator_iDiv_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="iMod">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICalculator/iMod" message="tns:ICalculator_iMod_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICalculator/iModResponse" message="tns:ICalculator_iMod_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CountAndMaxPrime">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICalculator/CountAndMaxPrime" message="tns:ICalculator_CountAndMaxPrime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICalculator/CountAndMaxPrimeResponse" message="tns:ICalculator_CountAndMaxPrime_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_ICalculator" type="tns:ICalculator">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="Add">
-      <soap:operation soapAction="http://tempuri.org/ICalculator/Add" style="document" />
+    <wsdl:operation name="iAdd">
+      <soap:operation soapAction="http://tempuri.org/ICalculator/iAdd" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -56,8 +87,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Multiply">
-      <soap:operation soapAction="http://tempuri.org/ICalculator/Multiply" style="document" />
+    <wsdl:operation name="iSub">
+      <soap:operation soapAction="http://tempuri.org/ICalculator/iSub" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -65,8 +96,35 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="HMultiply">
-      <soap:operation soapAction="http://tempuri.org/ICalculator/HMultiply" style="document" />
+    <wsdl:operation name="iMul">
+      <soap:operation soapAction="http://tempuri.org/ICalculator/iMul" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iDiv">
+      <soap:operation soapAction="http://tempuri.org/ICalculator/iDiv" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iMod">
+      <soap:operation soapAction="http://tempuri.org/ICalculator/iMod" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CountAndMaxPrime">
+      <soap:operation soapAction="http://tempuri.org/ICalculator/CountAndMaxPrime" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -78,8 +136,8 @@
   <wsdl:binding name="WSHttpBinding_ICalculator" type="tns:ICalculator">
     <wsp:PolicyReference URI="#WSHttpBinding_ICalculator_policy" />
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="Add">
-      <soap12:operation soapAction="http://tempuri.org/ICalculator/Add" style="document" />
+    <wsdl:operation name="iAdd">
+      <soap12:operation soapAction="http://tempuri.org/ICalculator/iAdd" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -87,8 +145,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Multiply">
-      <soap12:operation soapAction="http://tempuri.org/ICalculator/Multiply" style="document" />
+    <wsdl:operation name="iSub">
+      <soap12:operation soapAction="http://tempuri.org/ICalculator/iSub" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -96,8 +154,35 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="HMultiply">
-      <soap12:operation soapAction="http://tempuri.org/ICalculator/HMultiply" style="document" />
+    <wsdl:operation name="iMul">
+      <soap12:operation soapAction="http://tempuri.org/ICalculator/iMul" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iDiv">
+      <soap12:operation soapAction="http://tempuri.org/ICalculator/iDiv" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="iMod">
+      <soap12:operation soapAction="http://tempuri.org/ICalculator/iMod" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CountAndMaxPrime">
+      <soap12:operation soapAction="http://tempuri.org/ICalculator/CountAndMaxPrime" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

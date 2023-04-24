@@ -26,6 +26,7 @@
     <MetadataFile FileName="MyCalculator.wsdl" MetadataType="Wsdl" ID="c79dc10e-bf9b-4f42-a93e-ac5227a16505" SourceId="1" SourceUrl="http://localhost:5000/WcfService?wsdl" />
     <MetadataFile FileName="WcfService.disco" MetadataType="Disco" ID="bb723870-7049-4806-a06f-297c40870ecb" SourceId="1" SourceUrl="http://localhost:5000/WcfService?disco" />
     <MetadataFile FileName="WcfService1.xsd" MetadataType="Schema" ID="905bb019-fcc6-4c06-abfa-5df7f6bd6a55" SourceId="1" SourceUrl="http://localhost:5000/WcfService?xsd=xsd0" />
+    <MetadataFile FileName="WcfService2.xsd" MetadataType="Schema" ID="e67e5fdc-da7d-4e29-9f4f-193acd23eca8" SourceId="1" SourceUrl="http://localhost:5000/WcfService?xsd=xsd2" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
