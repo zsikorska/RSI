@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace WcfService
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
-    public class MyCalculator : ICalculator
+    public class PersonService : IPersonService
     {
         public int iAdd(int val1, int val2)
         {

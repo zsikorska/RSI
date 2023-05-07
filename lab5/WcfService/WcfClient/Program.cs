@@ -7,7 +7,7 @@ namespace WcfClient
 {
     internal class Program
     {
-        static CalculatorClient myClient2;
+        static PersonServiceClient myClient2;
 
         static void Main(string[] args)
         {
@@ -16,10 +16,10 @@ namespace WcfClient
             Uri baseAddress = new Uri("http://localhost:5000/WcfService/endpoint1");
             BasicHttpBinding myBinding = new BasicHttpBinding();
             EndpointAddress eAddress = new EndpointAddress(baseAddress);
-            ChannelFactory<ServiceReference1.ICalculator> myCF = new ChannelFactory<ServiceReference1.ICalculator>(myBinding, eAddress);
-            ServiceReference1.ICalculator myClient = myCF.CreateChannel();
+            ChannelFactory<ServiceReference1.IPersonService> myCF = new ChannelFactory<ServiceReference1.IPersonService>(myBinding, eAddress);
+            ServiceReference1.IPersonService myClient = myCF.CreateChannel();
 
-            myClient2 = new CalculatorClient("WSHttpBinding_ICalculator");
+            myClient2 = new PersonServiceClient("WSHttpBinding_IPersonService");
 
             Menu();
         }
