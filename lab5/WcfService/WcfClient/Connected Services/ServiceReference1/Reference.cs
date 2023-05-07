@@ -9,47 +9,132 @@
 //------------------------------------------------------------------------------
 
 namespace WcfClient.ServiceReference1 {
+    using System.Runtime.Serialization;
+    using System;
     
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Person", Namespace="http://schemas.datacontract.org/2004/07/WcfService")]
+    [System.SerializableAttribute()]
+    public partial class Person : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int AgeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Age {
+            get {
+                return this.AgeField;
+            }
+            set {
+                if ((this.AgeField.Equals(value) != true)) {
+                    this.AgeField = value;
+                    this.RaisePropertyChanged("Age");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IPersonService")]
     public interface IPersonService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/iAdd", ReplyAction="http://tempuri.org/IPersonService/iAddResponse")]
-        int iAdd(int val1, int val2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/GetPersonsCount", ReplyAction="http://tempuri.org/IPersonService/GetPersonsCountResponse")]
+        int GetPersonsCount();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/iAdd", ReplyAction="http://tempuri.org/IPersonService/iAddResponse")]
-        System.Threading.Tasks.Task<int> iAddAsync(int val1, int val2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/GetPersonsCount", ReplyAction="http://tempuri.org/IPersonService/GetPersonsCountResponse")]
+        System.Threading.Tasks.Task<int> GetPersonsCountAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/iSub", ReplyAction="http://tempuri.org/IPersonService/iSubResponse")]
-        int iSub(int val1, int val2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/GetAllPersons", ReplyAction="http://tempuri.org/IPersonService/GetAllPersonsResponse")]
+        WcfClient.ServiceReference1.Person[] GetAllPersons();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/iSub", ReplyAction="http://tempuri.org/IPersonService/iSubResponse")]
-        System.Threading.Tasks.Task<int> iSubAsync(int val1, int val2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/GetAllPersons", ReplyAction="http://tempuri.org/IPersonService/GetAllPersonsResponse")]
+        System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person[]> GetAllPersonsAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/iMul", ReplyAction="http://tempuri.org/IPersonService/iMulResponse")]
-        int iMul(int val1, int val2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/GetPersonById", ReplyAction="http://tempuri.org/IPersonService/GetPersonByIdResponse")]
+        WcfClient.ServiceReference1.Person GetPersonById(int id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/iMul", ReplyAction="http://tempuri.org/IPersonService/iMulResponse")]
-        System.Threading.Tasks.Task<int> iMulAsync(int val1, int val2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/GetPersonById", ReplyAction="http://tempuri.org/IPersonService/GetPersonByIdResponse")]
+        System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person> GetPersonByIdAsync(int id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/iDiv", ReplyAction="http://tempuri.org/IPersonService/iDivResponse")]
-        int iDiv(int val1, int val2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/AddPerson", ReplyAction="http://tempuri.org/IPersonService/AddPersonResponse")]
+        WcfClient.ServiceReference1.Person AddPerson(WcfClient.ServiceReference1.Person person);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/iDiv", ReplyAction="http://tempuri.org/IPersonService/iDivResponse")]
-        System.Threading.Tasks.Task<int> iDivAsync(int val1, int val2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/AddPerson", ReplyAction="http://tempuri.org/IPersonService/AddPersonResponse")]
+        System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person> AddPersonAsync(WcfClient.ServiceReference1.Person person);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/iMod", ReplyAction="http://tempuri.org/IPersonService/iModResponse")]
-        int iMod(int val1, int val2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/UpdatePerson", ReplyAction="http://tempuri.org/IPersonService/UpdatePersonResponse")]
+        WcfClient.ServiceReference1.Person UpdatePerson(WcfClient.ServiceReference1.Person person);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/iMod", ReplyAction="http://tempuri.org/IPersonService/iModResponse")]
-        System.Threading.Tasks.Task<int> iModAsync(int val1, int val2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/UpdatePerson", ReplyAction="http://tempuri.org/IPersonService/UpdatePersonResponse")]
+        System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person> UpdatePersonAsync(WcfClient.ServiceReference1.Person person);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/CountAndMaxPrime", ReplyAction="http://tempuri.org/IPersonService/CountAndMaxPrimeResponse")]
-        System.ValueTuple<int, int> CountAndMaxPrime(int l1, int l2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/DeletePerson", ReplyAction="http://tempuri.org/IPersonService/DeletePersonResponse")]
+        WcfClient.ServiceReference1.Person DeletePerson(int id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/CountAndMaxPrime", ReplyAction="http://tempuri.org/IPersonService/CountAndMaxPrimeResponse")]
-        System.Threading.Tasks.Task<System.ValueTuple<int, int>> CountAndMaxPrimeAsync(int l1, int l2);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/DeletePerson", ReplyAction="http://tempuri.org/IPersonService/DeletePersonResponse")]
+        System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person> DeletePersonAsync(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/FilterPersonsByName", ReplyAction="http://tempuri.org/IPersonService/FilterPersonsByNameResponse")]
+        WcfClient.ServiceReference1.Person[] FilterPersonsByName(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/FilterPersonsByName", ReplyAction="http://tempuri.org/IPersonService/FilterPersonsByNameResponse")]
+        System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person[]> FilterPersonsByNameAsync(string name);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -79,52 +164,60 @@ namespace WcfClient.ServiceReference1 {
                 base(binding, remoteAddress) {
         }
         
-        public int iAdd(int val1, int val2) {
-            return base.Channel.iAdd(val1, val2);
+        public int GetPersonsCount() {
+            return base.Channel.GetPersonsCount();
         }
         
-        public System.Threading.Tasks.Task<int> iAddAsync(int val1, int val2) {
-            return base.Channel.iAddAsync(val1, val2);
+        public System.Threading.Tasks.Task<int> GetPersonsCountAsync() {
+            return base.Channel.GetPersonsCountAsync();
         }
         
-        public int iSub(int val1, int val2) {
-            return base.Channel.iSub(val1, val2);
+        public WcfClient.ServiceReference1.Person[] GetAllPersons() {
+            return base.Channel.GetAllPersons();
         }
         
-        public System.Threading.Tasks.Task<int> iSubAsync(int val1, int val2) {
-            return base.Channel.iSubAsync(val1, val2);
+        public System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person[]> GetAllPersonsAsync() {
+            return base.Channel.GetAllPersonsAsync();
         }
         
-        public int iMul(int val1, int val2) {
-            return base.Channel.iMul(val1, val2);
+        public WcfClient.ServiceReference1.Person GetPersonById(int id) {
+            return base.Channel.GetPersonById(id);
         }
         
-        public System.Threading.Tasks.Task<int> iMulAsync(int val1, int val2) {
-            return base.Channel.iMulAsync(val1, val2);
+        public System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person> GetPersonByIdAsync(int id) {
+            return base.Channel.GetPersonByIdAsync(id);
         }
         
-        public int iDiv(int val1, int val2) {
-            return base.Channel.iDiv(val1, val2);
+        public WcfClient.ServiceReference1.Person AddPerson(WcfClient.ServiceReference1.Person person) {
+            return base.Channel.AddPerson(person);
         }
         
-        public System.Threading.Tasks.Task<int> iDivAsync(int val1, int val2) {
-            return base.Channel.iDivAsync(val1, val2);
+        public System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person> AddPersonAsync(WcfClient.ServiceReference1.Person person) {
+            return base.Channel.AddPersonAsync(person);
         }
         
-        public int iMod(int val1, int val2) {
-            return base.Channel.iMod(val1, val2);
+        public WcfClient.ServiceReference1.Person UpdatePerson(WcfClient.ServiceReference1.Person person) {
+            return base.Channel.UpdatePerson(person);
         }
         
-        public System.Threading.Tasks.Task<int> iModAsync(int val1, int val2) {
-            return base.Channel.iModAsync(val1, val2);
+        public System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person> UpdatePersonAsync(WcfClient.ServiceReference1.Person person) {
+            return base.Channel.UpdatePersonAsync(person);
         }
         
-        public System.ValueTuple<int, int> CountAndMaxPrime(int l1, int l2) {
-            return base.Channel.CountAndMaxPrime(l1, l2);
+        public WcfClient.ServiceReference1.Person DeletePerson(int id) {
+            return base.Channel.DeletePerson(id);
         }
         
-        public System.Threading.Tasks.Task<System.ValueTuple<int, int>> CountAndMaxPrimeAsync(int l1, int l2) {
-            return base.Channel.CountAndMaxPrimeAsync(l1, l2);
+        public System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person> DeletePersonAsync(int id) {
+            return base.Channel.DeletePersonAsync(id);
+        }
+        
+        public WcfClient.ServiceReference1.Person[] FilterPersonsByName(string name) {
+            return base.Channel.FilterPersonsByName(name);
+        }
+        
+        public System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person[]> FilterPersonsByNameAsync(string name) {
+            return base.Channel.FilterPersonsByNameAsync(name);
         }
     }
 }

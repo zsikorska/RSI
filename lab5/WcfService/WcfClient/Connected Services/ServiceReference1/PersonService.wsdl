@@ -11,75 +11,85 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:5000/WcfService?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:5000/WcfService?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="http://localhost:5000/WcfService?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="http://localhost:5000/WcfService?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/WcfService" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="IPersonService_iAdd_InputMessage">
-    <wsdl:part name="parameters" element="tns:iAdd" />
+  <wsdl:message name="IPersonService_GetPersonsCount_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPersonsCount" />
   </wsdl:message>
-  <wsdl:message name="IPersonService_iAdd_OutputMessage">
-    <wsdl:part name="parameters" element="tns:iAddResponse" />
+  <wsdl:message name="IPersonService_GetPersonsCount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPersonsCountResponse" />
   </wsdl:message>
-  <wsdl:message name="IPersonService_iSub_InputMessage">
-    <wsdl:part name="parameters" element="tns:iSub" />
+  <wsdl:message name="IPersonService_GetAllPersons_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllPersons" />
   </wsdl:message>
-  <wsdl:message name="IPersonService_iSub_OutputMessage">
-    <wsdl:part name="parameters" element="tns:iSubResponse" />
+  <wsdl:message name="IPersonService_GetAllPersons_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllPersonsResponse" />
   </wsdl:message>
-  <wsdl:message name="IPersonService_iMul_InputMessage">
-    <wsdl:part name="parameters" element="tns:iMul" />
+  <wsdl:message name="IPersonService_GetPersonById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPersonById" />
   </wsdl:message>
-  <wsdl:message name="IPersonService_iMul_OutputMessage">
-    <wsdl:part name="parameters" element="tns:iMulResponse" />
+  <wsdl:message name="IPersonService_GetPersonById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPersonByIdResponse" />
   </wsdl:message>
-  <wsdl:message name="IPersonService_iDiv_InputMessage">
-    <wsdl:part name="parameters" element="tns:iDiv" />
+  <wsdl:message name="IPersonService_AddPerson_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddPerson" />
   </wsdl:message>
-  <wsdl:message name="IPersonService_iDiv_OutputMessage">
-    <wsdl:part name="parameters" element="tns:iDivResponse" />
+  <wsdl:message name="IPersonService_AddPerson_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddPersonResponse" />
   </wsdl:message>
-  <wsdl:message name="IPersonService_iMod_InputMessage">
-    <wsdl:part name="parameters" element="tns:iMod" />
+  <wsdl:message name="IPersonService_UpdatePerson_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdatePerson" />
   </wsdl:message>
-  <wsdl:message name="IPersonService_iMod_OutputMessage">
-    <wsdl:part name="parameters" element="tns:iModResponse" />
+  <wsdl:message name="IPersonService_UpdatePerson_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdatePersonResponse" />
   </wsdl:message>
-  <wsdl:message name="IPersonService_CountAndMaxPrime_InputMessage">
-    <wsdl:part name="parameters" element="tns:CountAndMaxPrime" />
+  <wsdl:message name="IPersonService_DeletePerson_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeletePerson" />
   </wsdl:message>
-  <wsdl:message name="IPersonService_CountAndMaxPrime_OutputMessage">
-    <wsdl:part name="parameters" element="tns:CountAndMaxPrimeResponse" />
+  <wsdl:message name="IPersonService_DeletePerson_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeletePersonResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPersonService_FilterPersonsByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:FilterPersonsByName" />
+  </wsdl:message>
+  <wsdl:message name="IPersonService_FilterPersonsByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FilterPersonsByNameResponse" />
   </wsdl:message>
   <wsdl:portType name="IPersonService">
-    <wsdl:operation name="iAdd">
-      <wsdl:input wsaw:Action="http://tempuri.org/IPersonService/iAdd" message="tns:IPersonService_iAdd_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IPersonService/iAddResponse" message="tns:IPersonService_iAdd_OutputMessage" />
+    <wsdl:operation name="GetPersonsCount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPersonService/GetPersonsCount" message="tns:IPersonService_GetPersonsCount_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPersonService/GetPersonsCountResponse" message="tns:IPersonService_GetPersonsCount_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="iSub">
-      <wsdl:input wsaw:Action="http://tempuri.org/IPersonService/iSub" message="tns:IPersonService_iSub_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IPersonService/iSubResponse" message="tns:IPersonService_iSub_OutputMessage" />
+    <wsdl:operation name="GetAllPersons">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPersonService/GetAllPersons" message="tns:IPersonService_GetAllPersons_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPersonService/GetAllPersonsResponse" message="tns:IPersonService_GetAllPersons_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="iMul">
-      <wsdl:input wsaw:Action="http://tempuri.org/IPersonService/iMul" message="tns:IPersonService_iMul_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IPersonService/iMulResponse" message="tns:IPersonService_iMul_OutputMessage" />
+    <wsdl:operation name="GetPersonById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPersonService/GetPersonById" message="tns:IPersonService_GetPersonById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPersonService/GetPersonByIdResponse" message="tns:IPersonService_GetPersonById_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="iDiv">
-      <wsdl:input wsaw:Action="http://tempuri.org/IPersonService/iDiv" message="tns:IPersonService_iDiv_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IPersonService/iDivResponse" message="tns:IPersonService_iDiv_OutputMessage" />
+    <wsdl:operation name="AddPerson">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPersonService/AddPerson" message="tns:IPersonService_AddPerson_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPersonService/AddPersonResponse" message="tns:IPersonService_AddPerson_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="iMod">
-      <wsdl:input wsaw:Action="http://tempuri.org/IPersonService/iMod" message="tns:IPersonService_iMod_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IPersonService/iModResponse" message="tns:IPersonService_iMod_OutputMessage" />
+    <wsdl:operation name="UpdatePerson">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPersonService/UpdatePerson" message="tns:IPersonService_UpdatePerson_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPersonService/UpdatePersonResponse" message="tns:IPersonService_UpdatePerson_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="CountAndMaxPrime">
-      <wsdl:input wsaw:Action="http://tempuri.org/IPersonService/CountAndMaxPrime" message="tns:IPersonService_CountAndMaxPrime_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IPersonService/CountAndMaxPrimeResponse" message="tns:IPersonService_CountAndMaxPrime_OutputMessage" />
+    <wsdl:operation name="DeletePerson">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPersonService/DeletePerson" message="tns:IPersonService_DeletePerson_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPersonService/DeletePersonResponse" message="tns:IPersonService_DeletePerson_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FilterPersonsByName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPersonService/FilterPersonsByName" message="tns:IPersonService_FilterPersonsByName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPersonService/FilterPersonsByNameResponse" message="tns:IPersonService_FilterPersonsByName_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IPersonService" type="tns:IPersonService">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="iAdd">
-      <soap:operation soapAction="http://tempuri.org/IPersonService/iAdd" style="document" />
+    <wsdl:operation name="GetPersonsCount">
+      <soap:operation soapAction="http://tempuri.org/IPersonService/GetPersonsCount" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -87,8 +97,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="iSub">
-      <soap:operation soapAction="http://tempuri.org/IPersonService/iSub" style="document" />
+    <wsdl:operation name="GetAllPersons">
+      <soap:operation soapAction="http://tempuri.org/IPersonService/GetAllPersons" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -96,8 +106,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="iMul">
-      <soap:operation soapAction="http://tempuri.org/IPersonService/iMul" style="document" />
+    <wsdl:operation name="GetPersonById">
+      <soap:operation soapAction="http://tempuri.org/IPersonService/GetPersonById" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -105,8 +115,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="iDiv">
-      <soap:operation soapAction="http://tempuri.org/IPersonService/iDiv" style="document" />
+    <wsdl:operation name="AddPerson">
+      <soap:operation soapAction="http://tempuri.org/IPersonService/AddPerson" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -114,8 +124,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="iMod">
-      <soap:operation soapAction="http://tempuri.org/IPersonService/iMod" style="document" />
+    <wsdl:operation name="UpdatePerson">
+      <soap:operation soapAction="http://tempuri.org/IPersonService/UpdatePerson" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -123,8 +133,17 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="CountAndMaxPrime">
-      <soap:operation soapAction="http://tempuri.org/IPersonService/CountAndMaxPrime" style="document" />
+    <wsdl:operation name="DeletePerson">
+      <soap:operation soapAction="http://tempuri.org/IPersonService/DeletePerson" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FilterPersonsByName">
+      <soap:operation soapAction="http://tempuri.org/IPersonService/FilterPersonsByName" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -136,8 +155,8 @@
   <wsdl:binding name="WSHttpBinding_IPersonService" type="tns:IPersonService">
     <wsp:PolicyReference URI="#WSHttpBinding_IPersonService_policy" />
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="iAdd">
-      <soap12:operation soapAction="http://tempuri.org/IPersonService/iAdd" style="document" />
+    <wsdl:operation name="GetPersonsCount">
+      <soap12:operation soapAction="http://tempuri.org/IPersonService/GetPersonsCount" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -145,8 +164,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="iSub">
-      <soap12:operation soapAction="http://tempuri.org/IPersonService/iSub" style="document" />
+    <wsdl:operation name="GetAllPersons">
+      <soap12:operation soapAction="http://tempuri.org/IPersonService/GetAllPersons" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -154,8 +173,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="iMul">
-      <soap12:operation soapAction="http://tempuri.org/IPersonService/iMul" style="document" />
+    <wsdl:operation name="GetPersonById">
+      <soap12:operation soapAction="http://tempuri.org/IPersonService/GetPersonById" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -163,8 +182,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="iDiv">
-      <soap12:operation soapAction="http://tempuri.org/IPersonService/iDiv" style="document" />
+    <wsdl:operation name="AddPerson">
+      <soap12:operation soapAction="http://tempuri.org/IPersonService/AddPerson" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -172,8 +191,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="iMod">
-      <soap12:operation soapAction="http://tempuri.org/IPersonService/iMod" style="document" />
+    <wsdl:operation name="UpdatePerson">
+      <soap12:operation soapAction="http://tempuri.org/IPersonService/UpdatePerson" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -181,8 +200,17 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="CountAndMaxPrime">
-      <soap12:operation soapAction="http://tempuri.org/IPersonService/CountAndMaxPrime" style="document" />
+    <wsdl:operation name="DeletePerson">
+      <soap12:operation soapAction="http://tempuri.org/IPersonService/DeletePerson" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FilterPersonsByName">
+      <soap12:operation soapAction="http://tempuri.org/IPersonService/FilterPersonsByName" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

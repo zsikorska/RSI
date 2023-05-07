@@ -13,39 +13,38 @@ namespace WcfService
     public interface IPersonService
     {
         [OperationContract]
-        int iAdd(int val1, int val2);
+        int GetPersonsCount();
+
         [OperationContract]
-        int iSub(int val1, int val2);
+        List<Person> GetAllPersons();
+
         [OperationContract]
-        int iMul(int val1, int val2);
+        Person GetPersonById(int id);
+
         [OperationContract]
-        int iDiv(int val1, int val2);
+        Person AddPerson(Person person);
+
         [OperationContract]
-        int iMod(int val1, int val2);
+        Person UpdatePerson(int id, Person person);
+
         [OperationContract]
-        Task<(int, int)> CountAndMaxPrime(int l1, int l2);
+        Person DeletePerson(int id);
+
+        [OperationContract]
+        List<Person> FilterPersonsByName(string name);
     }
 
     // Użyj kontraktu danych, jak pokazano w poniższym przykładzie, aby dodać typy złożone do operacji usługi.
-    // Możesz dodać pliki XSD do projektu. Po skompilowaniu projektu możesz bezpośrednio użyć zdefiniowanych w nim typów danych w przestrzeni nazw „WcfService.ContractType”.
     [DataContract]
-    public class CompositeType
+    public class Person
     {
-        bool boolValue = true;
-        string stringValue = "Hello ";
+        [DataMember]
+        public int Id { get; set; }
 
         [DataMember]
-        public bool BoolValue
-        {
-            get { return boolValue; }
-            set { boolValue = value; }
-        }
+        public string Name { get; set; }
 
         [DataMember]
-        public string StringValue
-        {
-            get { return stringValue; }
-            set { stringValue = value; }
-        }
+        public int Age { get; set; }
     }
 }

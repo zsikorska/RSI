@@ -52,12 +52,15 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-	  <Compile Include="MyData.cs" />
+    <Compile Include="MyData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Connected Services\ServiceReference1\MyCalculator.wsdl" />
+    <None Include="Connected Services\ServiceReference1\WcfClient.ServiceReference1.Person.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\ServiceReference1\WcfService.xsd">
       <SubType>Designer</SubType>
     </None>

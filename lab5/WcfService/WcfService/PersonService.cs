@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 
@@ -7,166 +10,81 @@ namespace WcfService
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class PersonService : IPersonService
     {
-        public int iAdd(int val1, int val2)
+        private List<Person> persons = new List<Person>();
+        private int nextId = 1;
+
+
+        public int GetPersonsCount()
         {
-            Console.WriteLine("Wywołano dodawanie");
-            Console.WriteLine("Parametry wywołania: {0}, {1}", val1, val2);
-            try
-            {
-                checked
-                {
-                    int result = val1 + val2;
-                    Console.WriteLine("Wynik wywołania: {0}", result);
-                    Console.WriteLine();
-                    return result;
-                }
-            }catch(OverflowException e)
-            {
-                throw new FaultException<OverflowException>(e, $"Błąd przepełnienia: {val1} + {val2}");
-            }
+            Console.WriteLine("Getting person count.");
+            return persons.Count;
         }
 
-        public int iSub(int val1, int val2)
+        public List<Person> GetAllPersons()
         {
-            Console.WriteLine("Wywołano odejmowanie");
-            Console.WriteLine("Parametry wywołania: {0}, {1}", val1, val2);
-            try
-            {
-                checked
-                {
-                    int result = val1 - val2;
-                    Console.WriteLine("Wynik wywołania: {0}", result);
-                    Console.WriteLine();
-                    return result;
-                }
-            }
-            catch (OverflowException e)
-            {
-                throw new FaultException<OverflowException>(e, $"Błąd przepełnienia: {val1} - {val2}");
-            }
+            Console.WriteLine("Getting all persons.");
+            return persons;
         }
 
-        public int iMul(int val1, int val2)
+        public Person GetPersonById(int id)
         {
-            Console.WriteLine("Wywołano mnożenie");
-            Console.WriteLine("Parametry wywołania: {0}, {1}", val1, val2);
-            try
+            Console.WriteLine("Getting person by ID: {0}.", id);
+            Person person = persons.FirstOrDefault(p => p.Id == id);
+            if (person == null)
             {
-                checked
-                {
-                    int result = val1 * val2;
-                    Console.WriteLine("Wynik wywołania: {0}", result);
-                    Console.WriteLine();
-                    return result;
-                }
+                Console.WriteLine("User {0} not found.", id);
+                throw new ArgumentException("Person does not exist.");
             }
-            catch (OverflowException e)
-            {
-                throw new FaultException<OverflowException>(e, $"Błąd przepełnienia: {val1} * {val2}");
-            }
+            Console.WriteLine("User {0} found in database: {1}", id, person.Name);
+            return person;
         }
 
-        public int iDiv(int val1, int val2)
+        public Person AddPerson(Person person)
         {
-            Console.WriteLine("Wywołano dzielenie");
-            Console.WriteLine("Parametry wywołania: {0}, {1}", val1, val2);
-            try
+            if (persons.Contains(person))
             {
-                checked
-                {
-                    int result = val1 / val2;
-                    Console.WriteLine("Wynik wywołania: {0}", result);
-                    Console.WriteLine();
-                    return result;
-                }
+                throw new ArgumentException("Person already exists.");
             }
-            catch (OverflowException e)
-            {
-                throw new FaultException<OverflowException>(e, $"Błąd przepełnienia: {val1} / {val2}");
-            }
-            catch (DivideByZeroException e)
-            {
-                throw new FaultException<DivideByZeroException>(e, $"Błąd dzielenia przez 0: {val1} / {val2}");
-            }
+
+            person.Id = nextId++;
+            Console.WriteLine("Adding person with ID: {0}, Name: {1}, Age: {2}.", person.Id, person.Name, person.Age);
+            persons.Add(person);
+            return person;
         }
 
-        public int iMod(int val1, int val2)
+        public Person UpdatePerson(Person person)
         {
-            Console.WriteLine("Wywołano modulo");
-            Console.WriteLine("Parametry wywołania: {0}, {1}", val1, val2);
-            try
+            var existingPerson = persons.FirstOrDefault(p => p.Id == person.Id);
+            if (existingPerson == null)
             {
-                checked
-                {
-                    int result = val1 % val2;
-                    Console.WriteLine("Wynik wywołania: {0}", result);
-                    Console.WriteLine();
-                    return result;
-                }
+                throw new ArgumentException("Person does not exist.");
             }
-            catch (OverflowException e)
-            {
-                throw new FaultException<OverflowException>(e, $"Błąd przepełnienia: {val1} % {val2}");
-            }
-            catch (DivideByZeroException e)
-            {
-                throw new FaultException<DivideByZeroException>(e, $"Błąd dzielenia przez 0: {val1} % {val2}");
-            }
+
+            Console.WriteLine("Updating person with ID: {0}, Name: {1}, Age: {2}.", existingPerson.Id, existingPerson.Name, existingPerson.Age);
+            existingPerson.Name = person.Name;
+            existingPerson.Age = person.Age;
+            return existingPerson;
         }
 
-        public async Task<(int, int)> CountAndMaxPrime(int lowerBound, int upperBound)
+        public Person DeletePerson(int id)
         {
-            Console.WriteLine($"Wywołano liczenie liczb pierwszych z zakresu [{lowerBound}, {upperBound}]");
-
-
-            if (upperBound < lowerBound)
+            var existingPerson = persons.FirstOrDefault(p => p.Id == id);
+            if (existingPerson == null)
             {
-                Console.WriteLine("Błąd: górna granica zakresu nie może być mniejsza niż dolna.");
-                throw new FaultException("Górna granica zakresu nie może byc mniejsza niż dolna.");
+                throw new ArgumentException("Person does not exist.");
             }
 
-            if (lowerBound <= 0 || upperBound <= 0)
-            {
-                Console.WriteLine("Błąd: dolna i górna granica zakresu muszą być większe od 0.");
-                throw new FaultException("Dolna i górna granica zakresu muszą być większe od 0.");
-            }
-
-            var isPrime = new bool[upperBound + 1];
-            for (var i = 0; i < isPrime.Length; i++)
-            {
-                isPrime[i] = true;
-            }
-
-            isPrime[0] = false;
-            isPrime[1] = false;
-
-            for (var p = 2; p * p <= upperBound; p++)
-            {
-                if (isPrime[p])
-                {
-                    for (var i = p * p; i <= upperBound; i += p)
-                    {
-                        isPrime[i] = false;
-                    }
-                }
-            }
-
-            var count = 0;
-            var maxPrime = -1;
-            for (var p = lowerBound; p <= upperBound; p++)
-            {
-                if (isPrime[p])
-                {
-                    count++;
-                    maxPrime = p;
-                }
-            }
-
-            Console.WriteLine($"Liczba liczb pierwszych w zakresie [{lowerBound}, {upperBound}]: {count}");
-            Console.WriteLine($"Największa liczba pierwsza w zakresie [{lowerBound}, {upperBound}]: {maxPrime}");
-            Console.WriteLine();
-            return (count, maxPrime);
-
+            Console.WriteLine("Deleting person with ID: {0}, Name: {1}, Age: {2}.", existingPerson.Id, existingPerson.Name, existingPerson.Age);
+            persons.Remove(existingPerson);
+            return existingPerson;
         }
+
+        public List<Person> FilterPersonsByName(string name)
+        {
+            Console.WriteLine("Filtering persons by name: {0}.", name);
+            return persons.Where(p => p.Name.Contains(name)).ToList();
+        }
+
+
     }
 }

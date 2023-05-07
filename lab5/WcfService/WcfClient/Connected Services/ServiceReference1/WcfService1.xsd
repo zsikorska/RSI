@@ -1,93 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:5000/WcfService?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System" />
-  <xs:element name="iAdd">
+  <xs:import schemaLocation="http://localhost:5000/WcfService?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/WcfService" />
+  <xs:element name="GetPersonsCount">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPersonsCountResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="val1" type="xs:int" />
-        <xs:element minOccurs="0" name="val2" type="xs:int" />
+        <xs:element minOccurs="0" name="GetPersonsCountResult" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="iAddResponse">
+  <xs:element name="GetAllPersons">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllPersonsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="iAddResult" type="xs:int" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/WcfService" minOccurs="0" name="GetAllPersonsResult" nillable="true" type="q1:ArrayOfPerson" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="iSub">
+  <xs:element name="GetPersonById">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="val1" type="xs:int" />
-        <xs:element minOccurs="0" name="val2" type="xs:int" />
+        <xs:element minOccurs="0" name="id" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="iSubResponse">
+  <xs:element name="GetPersonByIdResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="iSubResult" type="xs:int" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/WcfService" minOccurs="0" name="GetPersonByIdResult" nillable="true" type="q2:Person" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="iMul">
+  <xs:element name="AddPerson">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="val1" type="xs:int" />
-        <xs:element minOccurs="0" name="val2" type="xs:int" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/WcfService" minOccurs="0" name="person" nillable="true" type="q3:Person" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="iMulResponse">
+  <xs:element name="AddPersonResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="iMulResult" type="xs:int" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/WcfService" minOccurs="0" name="AddPersonResult" nillable="true" type="q4:Person" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="iDiv">
+  <xs:element name="UpdatePerson">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="val1" type="xs:int" />
-        <xs:element minOccurs="0" name="val2" type="xs:int" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/WcfService" minOccurs="0" name="person" nillable="true" type="q5:Person" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="iDivResponse">
+  <xs:element name="UpdatePersonResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="iDivResult" type="xs:int" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/WcfService" minOccurs="0" name="UpdatePersonResult" nillable="true" type="q6:Person" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="iMod">
+  <xs:element name="DeletePerson">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="val1" type="xs:int" />
-        <xs:element minOccurs="0" name="val2" type="xs:int" />
+        <xs:element minOccurs="0" name="id" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="iModResponse">
+  <xs:element name="DeletePersonResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="iModResult" type="xs:int" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/WcfService" minOccurs="0" name="DeletePersonResult" nillable="true" type="q7:Person" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="CountAndMaxPrime">
+  <xs:element name="FilterPersonsByName">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="l1" type="xs:int" />
-        <xs:element minOccurs="0" name="l2" type="xs:int" />
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="CountAndMaxPrimeResponse">
+  <xs:element name="FilterPersonsByNameResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="CountAndMaxPrimeResult" type="q1:ValueTupleOfintint" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/WcfService" minOccurs="0" name="FilterPersonsByNameResult" nillable="true" type="q8:ArrayOfPerson" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
