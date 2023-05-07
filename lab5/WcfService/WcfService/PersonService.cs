@@ -17,12 +17,14 @@ namespace WcfService
         public int GetPersonsCount()
         {
             Console.WriteLine("Zwracanie liczby osób.");
+            Console.WriteLine();
             return persons.Count;
         }
 
         public List<Person> GetAllPersons()
         {
             Console.WriteLine("Zwracanie wszystkich osób.");
+            Console.WriteLine();
             return persons;
         }
 
@@ -33,9 +35,11 @@ namespace WcfService
             if (person == null)
             {
                 Console.WriteLine("Osoba o id {0} nie znaleziona.", id);
+                Console.WriteLine();
                 throw new FaultException("Osoba o podanym id nie istnieje.");
             }
             Console.WriteLine("Osoba o id {0} znaleziona: {1}", id, person.Name);
+            Console.WriteLine();
             return person;
         }
 
@@ -43,11 +47,14 @@ namespace WcfService
         {
             if (persons.Contains(person))
             {
-                throw new FaultException("Osoba już istnieje");
+                Console.WriteLine("Nie można dodać osoby bo jest już taka w systemie.");
+                Console.WriteLine();
+                throw new FaultException("Nie można dodać osoby bo jest już taka w systemie.");
             }
 
             person.Id = nextId++;
             Console.WriteLine("Dodawanie osoby - id: {0}, imię: {1}, wiek: {2}.", person.Id, person.Name, person.Age);
+            Console.WriteLine();
             persons.Add(person);
             return person;
         }
@@ -57,10 +64,13 @@ namespace WcfService
             var existingPerson = persons.FirstOrDefault(p => p.Id == person.Id);
             if (existingPerson == null)
             {
-                throw new FaultException("Osoba nie istnieje");
+                Console.WriteLine("Nie można zaktualizować osoby, bo taka osoba nie istnieje.");
+                Console.WriteLine();
+                throw new FaultException("Nie można zaktualizować osoby, bo taka osoba nie istnieje.");
             }
 
             Console.WriteLine("Aktualizowanie osoby - id: {0}, imię: {1}, wiek: {2}.", existingPerson.Id, existingPerson.Name, existingPerson.Age);
+            Console.WriteLine();
             existingPerson.Name = person.Name;
             existingPerson.Age = person.Age;
             return existingPerson;
@@ -71,10 +81,13 @@ namespace WcfService
             var existingPerson = persons.FirstOrDefault(p => p.Id == id);
             if (existingPerson == null)
             {
-                throw new FaultException("Osoba nie istnieje");
+                Console.WriteLine("Nie można usunąć osoby, bo taka osoba nie istnieje.");
+                Console.WriteLine();
+                throw new FaultException("Nie można usunąć osoby, bo taka osoba nie istnieje.");
             }
 
             Console.WriteLine("Usuwanie osoby - id: {0}, imię: {1}, wiek: {2}.", existingPerson.Id, existingPerson.Name, existingPerson.Age);
+            Console.WriteLine();
             persons.Remove(existingPerson);
             return existingPerson;
         }
@@ -82,16 +95,20 @@ namespace WcfService
         public async Task<List<Person>> FilterPersonsByNameAsync(string name)
         {
             Console.WriteLine("Filtrowanie osób po imieniu: {0}.", name);
+            Console.WriteLine();
             List<Person> filteredPersons = new List<Person>();
+            string searchName = name.ToLower();
+
             foreach (var person in persons)
             {
-                if (person.Name.Contains(name))
+                if (person.Name.ToLower().Contains(searchName))
                 {
                     filteredPersons.Add(person);
                 }
             }
 
-            await Task.Delay(3000);
+            await Task.Delay(4000);
+            Console.WriteLine("Zakończono filtrowanie osób po imieniu: {0}.", name);
             return filteredPersons;
         }
 
