@@ -17,6 +17,7 @@ namespace WcfClient
 
             Uri baseAddress = new Uri("http://localhost:5000/WcfService/endpoint1");
             BasicHttpBinding myBinding = new BasicHttpBinding();
+
             EndpointAddress eAddress = new EndpointAddress(baseAddress);
             ChannelFactory<ServiceReference1.IPersonService> myCF = new ChannelFactory<ServiceReference1.IPersonService>(myBinding, eAddress);
             ServiceReference1.IPersonService myClient = myCF.CreateChannel();
@@ -187,7 +188,8 @@ namespace WcfClient
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Błędny numer");
+                Console.WriteLine("Błędny numer. Wpisz numer jeszcze raz.");
+                Console.Write("Poprawny numer: ");
                 return InputNumber();
             }
         }
