@@ -101,10 +101,10 @@ namespace WcfClient.ServiceReference1 {
         System.Threading.Tasks.Task<int> GetPersonsCountAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/GetAllPersons", ReplyAction="http://tempuri.org/IPersonService/GetAllPersonsResponse")]
-        WcfClient.ServiceReference1.Person[] GetAllPersons();
+        System.Collections.Generic.List<WcfClient.ServiceReference1.Person> GetAllPersons();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/GetAllPersons", ReplyAction="http://tempuri.org/IPersonService/GetAllPersonsResponse")]
-        System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person[]> GetAllPersonsAsync();
+        System.Threading.Tasks.Task<System.Collections.Generic.List<WcfClient.ServiceReference1.Person>> GetAllPersonsAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/GetPersonById", ReplyAction="http://tempuri.org/IPersonService/GetPersonByIdResponse")]
         WcfClient.ServiceReference1.Person GetPersonById(int id);
@@ -131,10 +131,10 @@ namespace WcfClient.ServiceReference1 {
         System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person> DeletePersonAsync(int id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/FilterPersonsByName", ReplyAction="http://tempuri.org/IPersonService/FilterPersonsByNameResponse")]
-        WcfClient.ServiceReference1.Person[] FilterPersonsByName(string name);
+        System.Collections.Generic.List<WcfClient.ServiceReference1.Person> FilterPersonsByName(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPersonService/FilterPersonsByName", ReplyAction="http://tempuri.org/IPersonService/FilterPersonsByNameResponse")]
-        System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person[]> FilterPersonsByNameAsync(string name);
+        System.Threading.Tasks.Task<System.Collections.Generic.List<WcfClient.ServiceReference1.Person>> FilterPersonsByNameAsync(string name);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -172,11 +172,11 @@ namespace WcfClient.ServiceReference1 {
             return base.Channel.GetPersonsCountAsync();
         }
         
-        public WcfClient.ServiceReference1.Person[] GetAllPersons() {
+        public System.Collections.Generic.List<WcfClient.ServiceReference1.Person> GetAllPersons() {
             return base.Channel.GetAllPersons();
         }
         
-        public System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person[]> GetAllPersonsAsync() {
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<WcfClient.ServiceReference1.Person>> GetAllPersonsAsync() {
             return base.Channel.GetAllPersonsAsync();
         }
         
@@ -212,11 +212,11 @@ namespace WcfClient.ServiceReference1 {
             return base.Channel.DeletePersonAsync(id);
         }
         
-        public WcfClient.ServiceReference1.Person[] FilterPersonsByName(string name) {
+        public System.Collections.Generic.List<WcfClient.ServiceReference1.Person> FilterPersonsByName(string name) {
             return base.Channel.FilterPersonsByName(name);
         }
         
-        public System.Threading.Tasks.Task<WcfClient.ServiceReference1.Person[]> FilterPersonsByNameAsync(string name) {
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<WcfClient.ServiceReference1.Person>> FilterPersonsByNameAsync(string name) {
             return base.Channel.FilterPersonsByNameAsync(name);
         }
     }

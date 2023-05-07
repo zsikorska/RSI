@@ -16,26 +16,26 @@ namespace WcfService
 
         public int GetPersonsCount()
         {
-            Console.WriteLine("Getting person count.");
+            Console.WriteLine("Zwracanie liczby osób.");
             return persons.Count;
         }
 
         public List<Person> GetAllPersons()
         {
-            Console.WriteLine("Getting all persons.");
+            Console.WriteLine("Zwracanie wszystkich osób.");
             return persons;
         }
 
         public Person GetPersonById(int id)
         {
-            Console.WriteLine("Getting person by ID: {0}.", id);
+            Console.WriteLine("Zwracanie osoby o id: {0}.", id);
             Person person = persons.FirstOrDefault(p => p.Id == id);
             if (person == null)
             {
-                Console.WriteLine("User {0} not found.", id);
-                throw new ArgumentException("Person does not exist.");
+                Console.WriteLine("Osoba o id {0} nie znaleziona.", id);
+                throw new FaultException("Osoba o podanym id nie istnieje.");
             }
-            Console.WriteLine("User {0} found in database: {1}", id, person.Name);
+            Console.WriteLine("Osoba o id {0} znaleziona: {1}", id, person.Name);
             return person;
         }
 
@@ -43,11 +43,11 @@ namespace WcfService
         {
             if (persons.Contains(person))
             {
-                throw new ArgumentException("Person already exists.");
+                throw new FaultException("Osoba już istnieje");
             }
 
             person.Id = nextId++;
-            Console.WriteLine("Adding person with ID: {0}, Name: {1}, Age: {2}.", person.Id, person.Name, person.Age);
+            Console.WriteLine("Dodawanie osoby - id: {0}, imię: {1}, wiek: {2}.", person.Id, person.Name, person.Age);
             persons.Add(person);
             return person;
         }
@@ -57,10 +57,10 @@ namespace WcfService
             var existingPerson = persons.FirstOrDefault(p => p.Id == person.Id);
             if (existingPerson == null)
             {
-                throw new ArgumentException("Person does not exist.");
+                throw new FaultException("Osoba nie istnieje");
             }
 
-            Console.WriteLine("Updating person with ID: {0}, Name: {1}, Age: {2}.", existingPerson.Id, existingPerson.Name, existingPerson.Age);
+            Console.WriteLine("Aktualizowanie osoby - id: {0}, imię: {1}, wiek: {2}.", existingPerson.Id, existingPerson.Name, existingPerson.Age);
             existingPerson.Name = person.Name;
             existingPerson.Age = person.Age;
             return existingPerson;
@@ -71,18 +71,28 @@ namespace WcfService
             var existingPerson = persons.FirstOrDefault(p => p.Id == id);
             if (existingPerson == null)
             {
-                throw new ArgumentException("Person does not exist.");
+                throw new FaultException("Osoba nie istnieje");
             }
 
-            Console.WriteLine("Deleting person with ID: {0}, Name: {1}, Age: {2}.", existingPerson.Id, existingPerson.Name, existingPerson.Age);
+            Console.WriteLine("Usuwanie osoby - id: {0}, imię: {1}, wiek: {2}.", existingPerson.Id, existingPerson.Name, existingPerson.Age);
             persons.Remove(existingPerson);
             return existingPerson;
         }
 
-        public List<Person> FilterPersonsByName(string name)
+        public async Task<List<Person>> FilterPersonsByNameAsync(string name)
         {
-            Console.WriteLine("Filtering persons by name: {0}.", name);
-            return persons.Where(p => p.Name.Contains(name)).ToList();
+            Console.WriteLine("Filtrowanie osób po imieniu: {0}.", name);
+            List<Person> filteredPersons = new List<Person>();
+            foreach (var person in persons)
+            {
+                if (person.Name.Contains(name))
+                {
+                    filteredPersons.Add(person);
+                }
+            }
+
+            await Task.Delay(3000);
+            return filteredPersons;
         }
 
 

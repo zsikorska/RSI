@@ -2,6 +2,8 @@
 using System.ServiceModel;
 using System.Threading.Tasks;
 using WcfClient.ServiceReference1;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace WcfClient
 {
@@ -28,16 +30,17 @@ namespace WcfClient
         static async void Menu()
         {
             int num = 0;
-            while (num != 7)
+            while (num != 8)
             {
                 Console.WriteLine("Wybierz opcję:");
-                Console.WriteLine("1) Dodawanie");
-                Console.WriteLine("2) Odejmowanie");
-                Console.WriteLine("3) Mnożenie");
-                Console.WriteLine("4) Dzielenie");
-                Console.WriteLine("5) Modulo");
-                Console.WriteLine("6) Zliczanie liczb pierwszych i największa liczba");
-                Console.WriteLine("7) Wyjście \n");
+                Console.WriteLine("1) Zwróć liczbę osób");
+                Console.WriteLine("2) Zwróć wszystkie osoby");
+                Console.WriteLine("3) Zwróć osobę po id");
+                Console.WriteLine("4) Dodaj osobę");
+                Console.WriteLine("5) Zaktualizuj osobę");
+                Console.WriteLine("6) Usuń osobę");
+                Console.WriteLine("7) Filtruj osoby po imieniu");
+                Console.WriteLine("8) Wyjście \n");
                 Console.Write("Twój wybór: ");
                 num = InputNumber();
                 Console.WriteLine();
@@ -46,9 +49,8 @@ namespace WcfClient
                 {
                     try
                     {
-                        (int num1, int num2) = InputNumbers();
-                        var result = myClient2.iAdd(num1, num2);
-                        Console.WriteLine($"{num1} + {num2} = {result}");
+                        var size = myClient2.GetPersonsCount();
+                        Console.WriteLine($"Liczba osób: {size}");
                     }
                     catch (FaultException ex)
                     {
@@ -60,9 +62,11 @@ namespace WcfClient
                 {
                     try
                     {
-                        (int num1, int num2) = InputNumbers();
-                        var result = myClient2.iSub(num1, num2);
-                        Console.WriteLine($"{num1} - {num2} = {result}");
+                        var persons = myClient2.GetAllPersons();
+                        foreach (var person in persons)
+                        {
+                            Console.WriteLine($"Id: {person.Id}, Name: {person.Name}, Age: {person.Age}");
+                        }
                     }
                     catch (FaultException ex)
                     {
@@ -74,9 +78,10 @@ namespace WcfClient
                 {
                     try
                     {
-                        (int num1, int num2) = InputNumbers();
-                        var result = myClient2.iMul(num1, num2);
-                        Console.WriteLine($"{num1} * {num2} = {result}");
+                        Console.Write("Podaj id: ");
+                        var id = InputNumber();
+                        var person = myClient2.GetPersonById(id);
+                        Console.WriteLine($"Id: {person.Id}, Name: {person.Name}, Age: {person.Age}");
                     }
                     catch (FaultException ex)
                     {
@@ -88,9 +93,12 @@ namespace WcfClient
                 {
                     try
                     {
-                        (int num1, int num2) = InputNumbers();
-                        var result = myClient2.iDiv(num1, num2);
-                        Console.WriteLine($"{num1} / {num2} = {result}");
+                        Console.Write("Podaj imię: ");
+                        var name = Console.ReadLine();
+                        Console.Write("Podaj wiek: ");
+                        var age = InputNumber();
+                        var person = myClient2.AddPerson(new Person { Name = name, Age = age });
+                        Console.WriteLine($"Id: {person.Id}, Name: {person.Name}, Age: {person.Age}");
                     }
                     catch (FaultException ex)
                     {
@@ -102,9 +110,14 @@ namespace WcfClient
                 {
                     try
                     {
-                        (int num1, int num2) = InputNumbers();
-                        var result = myClient2.iMod(num1, num2);
-                        Console.WriteLine($"{num1} % {num2} = {result}");
+                        Console.Write("Podaj id: ");
+                        var id = InputNumber();
+                        Console.Write("Podaj imię: ");
+                        var name = Console.ReadLine();
+                        Console.Write("Podaj wiek: ");
+                        var age = InputNumber();
+                        var person = myClient2.UpdatePerson(new Person { Id = id, Name = name, Age = age });
+                        Console.WriteLine($"Id: {person.Id}, Name: {person.Name}, Age: {person.Age}");
                     }
                     catch (FaultException ex)
                     {
@@ -114,10 +127,25 @@ namespace WcfClient
                 }
                 else if (num == 6)
                 {
-                    CountPrimes();
+                    try
+                    {
+                        Console.Write("Podaj id: ");
+                        var id = InputNumber();
+                        var person = myClient2.DeletePerson(id);
+                        Console.WriteLine($"Id: {person.Id}, Name: {person.Name}, Age: {person.Age}");
+                    }
+                    catch (FaultException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                     Console.WriteLine();
                 }
                 else if (num == 7)
+                {
+                    FilterByName();
+                    Console.WriteLine();
+                }
+                else if (num == 8)
                 {
                     myClient2.Close();
                 }
@@ -131,14 +159,17 @@ namespace WcfClient
 
         }
 
-        static async Task CountPrimes()
+        static async void FilterByName()
         {
             try
             {
-                (int num1, int num2) = InputNumbers();
-                (int count, int max) = await myClient2.CountAndMaxPrimeAsync(num1, num2);
-                Console.WriteLine($"Liczba liczb pierwszych z zakresu [{num1}, {num2}]: " + count);
-                Console.WriteLine($"Najwieksza liczba pierwsza z zakresu [{num1}, {num2}]: " + max);
+                Console.Write("Podaj imię: ");
+                var name = Console.ReadLine();
+                List<Person> persons = await myClient2.FilterPersonsByNameAsync(name);
+                foreach (var person in persons)
+                {
+                    Console.WriteLine($"Id: {person.Id}, Name: {person.Name}, Age: {person.Age}");
+                }
 
             }
             catch (FaultException ex)
@@ -149,20 +180,18 @@ namespace WcfClient
 
         static int InputNumber()
         {
-            int number;
-            number = int.Parse(Console.ReadLine());
-            return number;
+            try {
+                int number;
+                number = int.Parse(Console.ReadLine());
+                return number;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Błędny numer");
+                return InputNumber();
+            }
         }
 
-        static (int, int) InputNumbers()
-        {
-            Console.Write("Podaj pierwszą liczbę: ");
-            int n1 = InputNumber();
-            Console.Write("Podaj drugą liczbę: ");
-            int n2 = InputNumber();
-            Console.WriteLine();
-            return (n1, n2);
-        }
 
     }
 }

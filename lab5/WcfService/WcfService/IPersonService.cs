@@ -29,7 +29,7 @@ namespace WcfService
         Person DeletePerson(int id);
 
         [OperationContract]
-        List<Person> FilterPersonsByName(string name);
+        Task<List<Person>> FilterPersonsByNameAsync(string name);
     }
 
     // Użyj kontraktu danych, jak pokazano w poniższym przykładzie, aby dodać typy złożone do operacji usługi.
