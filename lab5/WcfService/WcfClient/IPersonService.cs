@@ -46,5 +46,8 @@ namespace WcfService
 
         [DataMember]
         public int Age { get; set; }
+
+        [DataMember]
+        public string Email { get; set; }
     }
 }

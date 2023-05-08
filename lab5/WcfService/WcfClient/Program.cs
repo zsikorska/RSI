@@ -66,7 +66,7 @@ namespace WcfClient
                         var persons = myClient2.GetAllPersons();
                         foreach (var person in persons)
                         {
-                            Console.WriteLine($"Id: {person.Id}, Imię: {person.Name}, Wiek: {person.Age}");
+                            Console.WriteLine($"Id: {person.Id}, Imię: {person.Name}, Wiek: {person.Age}, Email: {person.Email}");
                         }
                     }
                     catch (FaultException ex)
@@ -82,7 +82,7 @@ namespace WcfClient
                         Console.Write("Podaj id: ");
                         var id = InputNumber();
                         var person = myClient2.GetPersonById(id);
-                        Console.WriteLine($"Id: {person.Id}, Imię: {person.Name}, Wiek: {person.Age}");
+                        Console.WriteLine($"Id: {person.Id}, Imię: {person.Name}, Wiek: {person.Age}, Email: {person.Email}");
                     }
                     catch (FaultException ex)
                     {
@@ -98,8 +98,10 @@ namespace WcfClient
                         var name = Console.ReadLine();
                         Console.Write("Podaj wiek: ");
                         var age = InputNumber();
-                        var person = myClient2.AddPerson(new Person { Name = name, Age = age });
-                        Console.WriteLine($"Id: {person.Id}, Imię: {person.Name}, Wiek: {person.Age}");
+                        Console.Write("Podaj email: ");
+                        var email = Console.ReadLine();
+                        var person = myClient2.AddPerson(new Person { Name = name, Age = age, Email = email });
+                        Console.WriteLine($"Id: {person.Id}, Imię: {person.Name}, Wiek: {person.Age}, Email: {person.Email}");
                     }
                     catch (FaultException ex)
                     {
@@ -117,8 +119,10 @@ namespace WcfClient
                         var name = Console.ReadLine();
                         Console.Write("Podaj wiek: ");
                         var age = InputNumber();
-                        var person = myClient2.UpdatePerson(new Person { Id = id, Name = name, Age = age });
-                        Console.WriteLine($"Id: {person.Id}, Imię: {person.Name}, Wiek: {person.Age}");
+                        Console.Write("Podaj email: ");
+                        var email = Console.ReadLine();
+                        var person = myClient2.UpdatePerson(new Person { Id = id, Name = name, Age = age, Email = email });
+                        Console.WriteLine($"Id: {person.Id}, Imię: {person.Name}, Wiek: {person.Age}, Email: {person.Email}");
                     }
                     catch (FaultException ex)
                     {
@@ -133,7 +137,7 @@ namespace WcfClient
                         Console.Write("Podaj id: ");
                         var id = InputNumber();
                         var person = myClient2.DeletePerson(id);
-                        Console.WriteLine($"Id: {person.Id}, Imię: {person.Name}, Wiek: {person.Age}");
+                        Console.WriteLine($"Id: {person.Id}, Imię: {person.Name}, Wiek: {person.Age}, Email: {person.Email}");
                     }
                     catch (FaultException ex)
                     {
@@ -169,13 +173,16 @@ namespace WcfClient
                 List<Person> persons = await myClient2.FilterPersonsByNameAsync(name);
                 foreach (var person in persons)
                 {
-                    Console.WriteLine($"Id: {person.Id}, Imię: {person.Name}, Wiek: {person.Age}");
+                    Console.WriteLine($"Id: {person.Id}, Imię: {person.Name}, Wiek: {person.Age}, Email: {person.Email}");
                 }
-
             }
             catch (FaultException ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            catch (TimeoutException te)
+            {
+                Console.WriteLine("Przekroczono czas żądania");
             }
         }
 

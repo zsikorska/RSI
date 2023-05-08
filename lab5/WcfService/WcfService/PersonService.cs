@@ -45,15 +45,15 @@ namespace WcfService
 
         public Person AddPerson(Person person)
         {
-            if (persons.Contains(person))
+            if (EmailInDB(person.Email))
             {
-                Console.WriteLine("Nie można dodać osoby bo jest już taka w systemie.");
+                Console.WriteLine("Nie można dodać osoby bo jest o takim emailu w systemie.");
                 Console.WriteLine();
-                throw new FaultException("Nie można dodać osoby bo jest już taka w systemie.");
+                throw new FaultException("Nie można dodać osoby bo jest o takim emailu w systemie.");
             }
 
             person.Id = nextId++;
-            Console.WriteLine("Dodawanie osoby - id: {0}, imię: {1}, wiek: {2}.", person.Id, person.Name, person.Age);
+            Console.WriteLine("Dodawanie osoby - id: {0}, imię: {1}, wiek: {2}, email: {3}.", person.Id, person.Name, person.Age, person.Email);
             Console.WriteLine();
             persons.Add(person);
             return person;
@@ -68,11 +68,18 @@ namespace WcfService
                 Console.WriteLine();
                 throw new FaultException("Nie można zaktualizować osoby, bo taka osoba nie istnieje.");
             }
+            if (EmailInDBInOtherUser(person.Email, person.Id))
+            {
+                Console.WriteLine("Nie można zmienić emmailu, ponieważ jest już wykorzystywany przez innego użytkownika.");
+                Console.WriteLine();
+                throw new FaultException("Nie można zmienić emmailu, ponieważ jest już wykorzystywany przez innego użytkownika.");
+            }
 
-            Console.WriteLine("Aktualizowanie osoby - id: {0}, imię: {1}, wiek: {2}.", existingPerson.Id, existingPerson.Name, existingPerson.Age);
-            Console.WriteLine();
             existingPerson.Name = person.Name;
             existingPerson.Age = person.Age;
+            existingPerson.Email = person.Email;
+            Console.WriteLine("Aktualizowanie osoby - id: {0}, imię: {1}, wiek: {2}, email: {3}.", existingPerson.Id, existingPerson.Name, existingPerson.Age, existingPerson.Email);
+            Console.WriteLine();
             return existingPerson;
         }
 
@@ -86,7 +93,7 @@ namespace WcfService
                 throw new FaultException("Nie można usunąć osoby, bo taka osoba nie istnieje.");
             }
 
-            Console.WriteLine("Usuwanie osoby - id: {0}, imię: {1}, wiek: {2}.", existingPerson.Id, existingPerson.Name, existingPerson.Age);
+            Console.WriteLine("Usuwanie osoby - id: {0}, imię: {1}, wiek: {2},  email: {3}.", existingPerson.Id, existingPerson.Name, existingPerson.Age, existingPerson.Email);
             Console.WriteLine();
             persons.Remove(existingPerson);
             return existingPerson;
@@ -112,6 +119,29 @@ namespace WcfService
             return filteredPersons;
         }
 
+        private bool EmailInDB(String email)
+        {
+            foreach(var person in persons)
+            {
+                if (person.Email.ToLower().Equals(email))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool EmailInDBInOtherUser(String email, int id)
+        {
+            foreach (var person in persons)
+            {
+                if (person.Email.ToLower().Equals(email) && id != person.Id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
     }
 }

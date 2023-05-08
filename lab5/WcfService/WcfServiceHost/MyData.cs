@@ -13,7 +13,7 @@ class MyData
     public static void Info()
     {
         Console.WriteLine("Zuzanna Sikorska, 260464");
-        Console.WriteLine("Piotr £azik, 260371");
+        Console.WriteLine("Piotr ≈Åazik, 260371");
         Console.WriteLine(DateTime.Now.ToString("dd MMMM, HH:mm:ss", new CultureInfo("pl-PL")));
 
         Console.WriteLine(Environment.Version);
