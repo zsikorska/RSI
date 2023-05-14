@@ -1,8 +1,12 @@
-﻿using System.Text;
+﻿using System.Net.Http.Headers;
+using System.Text;
+using System.Xml.Serialization;
 using Newtonsoft.Json;
 class Client
 {
     static string uri = "http://localhost:2119/MyRestService.svc";
+
+    static string format = "json";
     static void Main(string[] args)
     {
         MyData.Info();
@@ -14,19 +18,39 @@ class Client
         return getFromEndpoint("/json/persons/size");
     }
 
+    static string countPersonsXml()
+    {
+        return getFromEndpoint("/persons/size");
+    }
+
     static string allPersonsJson()
     {
         return getFromEndpoint("/json/persons");
     }
 
-    static string getPersonById(int id)
+    static string allPersonsXml()
+    {
+        return getFromEndpoint("/persons");
+    }
+
+    static string getPersonByIdJson(int id)
     {
         return getFromEndpoint("/json/persons/"+id);
     }
 
-    static string getPersonByName(string name)
+    static string getPersonByIdXml(int id)
+    {
+        return getFromEndpoint("/persons/" + id);
+    }
+
+    static string getPersonByNameJson(string name)
     {
         return getFromEndpoint("/json/persons/name/"+name);
+    }
+
+    static string getPersonByNameXml(string name)
+    {
+        return getFromEndpoint("/persons/name/" + name);
     }
 
     static string getFromEndpoint(string endpoint)
@@ -36,7 +60,7 @@ class Client
         return response.Content.ReadAsStringAsync().Result;
     }
 
-    static string addNewPerson(int id, string name, int age, string email)
+    static string addNewPersonJson(int id, string name, int age, string email)
     {
         string endpoint = "/json/persons";
         HttpClient client = new HttpClient();
@@ -44,7 +68,22 @@ class Client
         var response = client.PostAsync(uri + endpoint, content).Result;
         return response.Content.ReadAsStringAsync().Result;
     }
-    static string editPerson(int id, string name, int age, string email)
+
+    static string addNewPersonXml(int id, string name, int age, string email)
+    {
+        string endpoint = "/persons";
+        HttpClient client = new HttpClient();
+        client.DefaultRequestHeaders.Accept.Clear();
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
+
+        string xmlPayload = $@"<Person xmlns=""http://schemas.datacontract.org/2004/07/MyWebService""><Id>{id}</Id><Name>{name}</Name><Age>{age}</Age><Email>{email}</Email></Person>";
+
+        StringContent content = new StringContent(xmlPayload, Encoding.UTF8, "application/xml");
+        var response = client.PostAsync(uri + endpoint, content).Result;
+        return response.Content.ReadAsStringAsync().Result;
+    }
+
+    static string editPersonJson(int id, string name, int age, string email)
     {
         string endpoint = "/json/persons";
         HttpClient client = new HttpClient();
@@ -52,17 +91,40 @@ class Client
         var response = client.PutAsync(uri + endpoint, content).Result;
         return response.Content.ReadAsStringAsync().Result;
     }
-    static string deletePerson(int id)
+
+    static string editPersonXml(int id, string name, int age, string email)
+    {
+        string endpoint = "/persons";
+        HttpClient client = new HttpClient();
+        client.DefaultRequestHeaders.Accept.Clear();
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
+
+        string xmlPayload = $@"<Person xmlns=""http://schemas.datacontract.org/2004/07/MyWebService""><Id>{id}</Id><Name>{name}</Name><Age>{age}</Age><Email>{email}</Email></Person>";
+
+        StringContent content = new StringContent(xmlPayload, Encoding.UTF8, "application/xml");
+        var response = client.PutAsync(uri + endpoint, content).Result;
+        return response.Content.ReadAsStringAsync().Result;
+    }
+    static string deletePersonJson(int id)
     {
         string endpoint = "/json/persons/";
         HttpClient client = new HttpClient();
         var response = client.DeleteAsync(uri + endpoint+id).Result;
         return response.Content.ReadAsStringAsync().Result;
     }
+
+    static string deletePersonXml(int id)
+    {
+        string endpoint = "/persons/";
+        HttpClient client = new HttpClient();
+        var response = client.DeleteAsync(uri + endpoint + id).Result;
+        return response.Content.ReadAsStringAsync().Result;
+    }
+
     static void Menu()
     {
         int num = 0;
-        while (num != 8)
+        while (num != 9)
         {
             Console.WriteLine("Wybierz opcję:");
             Console.WriteLine("1) Zwróć liczbę osób");
@@ -72,24 +134,36 @@ class Client
             Console.WriteLine("5) Zaktualizuj osobę");
             Console.WriteLine("6) Usuń osobę");
             Console.WriteLine("7) Filtruj osoby po imieniu");
-            Console.WriteLine("8) Wyjście \n");
+            Console.WriteLine("8) Zmień format (aktualny: {0})", format);
+            Console.WriteLine("9) Wyjście \n");
             Console.Write("Twój wybór: ");
             num = InputNumber();
             Console.WriteLine();
 
             if (num == 1)
             {
-                Console.WriteLine($"Liczba osób: {countPersonsJson()}");
+                if(format == "json")
+                    Console.WriteLine($"Liczba osób: {countPersonsJson()}");
+                else
+                    Console.WriteLine($"Liczba osób: {countPersonsXml()}");
+
+                Console.WriteLine();
             }
             else if (num == 2)
             {
-                Console.WriteLine($"Lista wszystkich osób: \n{allPersonsJson()}\n");
+                if(format == "json")
+                    Console.WriteLine($"Lista wszystkich osób: \n{allPersonsJson()}\n");
+                else
+                    Console.WriteLine($"Lista wszystkich osób: \n{allPersonsXml()}\n");
             }
             else if (num == 3)
             {
                 Console.Write("Podaj id: ");
                 var id = InputNumber();
-                Console.WriteLine($"Osoba o podanym id: \n{getPersonById(id)}\n");
+                if(format == "json")
+                    Console.WriteLine($"Osoba o podanym id: \n{getPersonByIdJson(id)}\n");
+                else
+                    Console.WriteLine($"Osoba o podanym id: \n{getPersonByIdXml(id)}\n");
             }
             else if (num == 4)
             {
@@ -101,7 +175,11 @@ class Client
                 var age = InputNumber();
                 Console.Write("Podaj email: ");
                 var email = Console.ReadLine();
-                Console.WriteLine($"\n{addNewPerson(id, name, age, email)}\n");
+
+                if(format == "json")
+                    Console.WriteLine($"\n{addNewPersonJson(id, name, age, email)}\n");
+                else
+                    Console.WriteLine($"\n{addNewPersonXml(id, name, age, email)}\n");
             }
             else if (num == 5)
             {
@@ -113,21 +191,48 @@ class Client
                 var age = InputNumber();
                 Console.Write("Podaj email: ");
                 var email = Console.ReadLine();
-                Console.WriteLine($"\n{editPerson(id, name, age, email)}\n");
+
+                if(format == "json")
+                    Console.WriteLine($"\n{editPersonJson(id, name, age, email)}\n");
+                else
+                    Console.WriteLine($"\n{editPersonXml(id, name, age, email)}\n");
             }
             else if (num == 6)
             {
                 Console.Write("Podaj id do usunięcia: ");
                 var id = InputNumber();
-                Console.WriteLine($"Osoba o podanym id: \n{deletePerson(id)}\n");
+
+                if(format == "json")
+                    Console.WriteLine($"Osoba o podanym id: \n{deletePersonJson(id)}\n");
+                else
+                    Console.WriteLine($"Osoba o podanym id: \n{deletePersonXml(id)}\n");
             }
             else if (num == 7)
             {
                 Console.Write("Podaj imię: ");
                 var name = Console.ReadLine();
-                Console.WriteLine($"Osoba o podanym id: \n{getPersonByName(name)}\n");
+
+                if(format == "json")
+                    Console.WriteLine($"Osoba o podanym id: \n{getPersonByNameJson(name)}\n");
+                else
+                    Console.WriteLine($"Osoba o podanym id: \n{getPersonByNameXml(name)}\n");
             }
             else if (num == 8)
+            {
+                if (format == "json")
+                {
+                    format = "xml";
+                    Console.WriteLine("Zmieniono format na xml");
+                    Console.WriteLine();
+                }
+                else
+                {
+                    format = "json";
+                    Console.WriteLine("Zmieniono format na json");
+                    Console.WriteLine();
+                }
+            }
+            else if (num == 9)
             {
                 Environment.Exit(0);
             }
@@ -167,9 +272,13 @@ class Person
         Age = age;
         Email = email;
     }
+
     public int Id;
+
     public string Name;
+
     public int Age;
+
     public string Email;
 }
 
