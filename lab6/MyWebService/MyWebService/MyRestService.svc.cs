@@ -10,15 +10,16 @@ namespace MyWebService
     public class MyRestService : IRestService
     {
         private static List<Person> persons;
+        private static int id = 4;
 
         public MyRestService() 
         {
             persons = new List<Person>
             {
-                new Person { Id = 1, Name = "Piotr", Age = 23, Email = "piotr@mail.com" },
-                new Person { Id = 2, Name = "Zuzanna", Age = 22, Email = "zuza@mail.com" },
-                new Person { Id = 3, Name = "Anna", Age = 21, Email = "anna@mail.com" },
-                new Person { Id = 4, Name = "Barbara", Age = 20, Email = "barbara@mail.com" },
+                new Person { Id=0, Name = "Piotr", Age = 23, Email = "piotr@mail.com" },
+                new Person { Id=1, Name = "Zuzanna", Age = 22, Email = "zuza@mail.com" },
+                new Person { Id=2, Name = "Anna", Age = 21, Email = "anna@mail.com" },
+                new Person { Id=3, Name = "Barbara", Age = 20, Email = "barbara@mail.com" },
             };
         }
 
@@ -110,13 +111,11 @@ namespace MyWebService
             if (item == null)
                 throw new WebFaultException<string>("400:BadRequest", HttpStatusCode.BadRequest);
 
-            bool indexExists = persons.FindIndex(p => p.Id == item.Id) != -1;
-            if (indexExists)
-                throw new WebFaultException<string>("409: Conflict", HttpStatusCode.Conflict);
-
             bool personExists = persons.FindIndex(p => p.Name == item.Name && p.Email == item.Email && p.Age == item.Age) != -1;
             if (personExists)
                 throw new WebFaultException<string>("409: Conflict", HttpStatusCode.Conflict);
+
+            item.Id = id++;
 
             persons.Add(item);
             return "Dodano nową osobę z ID=" + item.Id;

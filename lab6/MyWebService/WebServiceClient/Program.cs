@@ -60,23 +60,23 @@ class Client
         return response.Content.ReadAsStringAsync().Result;
     }
 
-    static string addNewPersonJson(int id, string name, int age, string email)
+    static string addNewPersonJson(string name, int age, string email)
     {
         string endpoint = "/json/persons";
         HttpClient client = new HttpClient();
-        StringContent content = new StringContent(JsonConvert.SerializeObject(new Person(id, name, age, email)), Encoding.UTF8, "application/json");
+        StringContent content = new StringContent(JsonConvert.SerializeObject(new Person(name, age, email)), Encoding.UTF8, "application/json");
         var response = client.PostAsync(uri + endpoint, content).Result;
         return response.Content.ReadAsStringAsync().Result;
     }
 
-    static string addNewPersonXml(int id, string name, int age, string email)
+    static string addNewPersonXml(string name, int age, string email)
     {
         string endpoint = "/persons";
         HttpClient client = new HttpClient();
         client.DefaultRequestHeaders.Accept.Clear();
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
 
-        string xmlPayload = $@"<Person xmlns=""http://schemas.datacontract.org/2004/07/MyWebService""><Id>{id}</Id><Name>{name}</Name><Age>{age}</Age><Email>{email}</Email></Person>";
+        string xmlPayload = $@"<Person xmlns=""http://schemas.datacontract.org/2004/07/MyWebService""><Name>{name}</Name><Age>{age}</Age><Email>{email}</Email></Person>";
 
         StringContent content = new StringContent(xmlPayload, Encoding.UTF8, "application/xml");
         var response = client.PostAsync(uri + endpoint, content).Result;
@@ -167,8 +167,6 @@ class Client
             }
             else if (num == 4)
             {
-                Console.Write("Podaj id: ");
-                var id = InputNumber();
                 Console.Write("Podaj imię: ");
                 var name = Console.ReadLine();
                 Console.Write("Podaj wiek: ");
@@ -177,9 +175,9 @@ class Client
                 var email = Console.ReadLine();
 
                 if(format == "json")
-                    Console.WriteLine($"\n{addNewPersonJson(id, name, age, email)}\n");
+                    Console.WriteLine($"\n{addNewPersonJson(name, age, email)}\n");
                 else
-                    Console.WriteLine($"\n{addNewPersonXml(id, name, age, email)}\n");
+                    Console.WriteLine($"\n{addNewPersonXml(name, age, email)}\n");
             }
             else if (num == 5)
             {
@@ -265,6 +263,12 @@ class Client
 
 class Person
 {
+    public Person(string name, int age, string email)
+    {
+        Name = name;
+        Age = age;
+        Email = email;
+    }
     public Person(int id, string name, int age, string email)
     {
         Id = id;   
