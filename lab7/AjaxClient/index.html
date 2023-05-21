@@ -27,7 +27,7 @@
                 <h2 id="form-title"></h2>
                 <form id="person-form">
                     <div id="inputs-container"></div>
-                    <button type="submit">Submit</button>
+                    <button id="submitBtn" type="button">Submit</button>
                     <button type="button" onclick="clearForm()">Clear</button>
                     <button type="button" onclick="hideForm()">Cancel</button>
                 </form>
@@ -37,17 +37,15 @@
         <!-- Table to display persons -->
         <h1>People</h1>
         <table id="persons-table">
-            <thead>
-            <tr>
+            <thead id="persons-table-header">
+            <tr id="persons-table-header-row">
                 <th>Id</th>
                 <th>Name</th>
                 <th>Age</th>
                 <th>Email</th>
             </tr>
             </thead>
-            <tbody id="persons-list">
-            <!-- Persons will be inserted here dynamically -->
-            </tbody>
+            <tbody id="persons-list"></tbody>
         </table>
     </div>
 
