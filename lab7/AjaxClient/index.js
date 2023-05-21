@@ -400,12 +400,11 @@ function addPersonJson(person) {
     console.log(JSON.stringify(person));
     xhr.onreadystatechange = function() {
         if (this.readyState === 4) {
-            if (this.status === 200) {
+            getAllPeople();
+            if (this.status === 200 || this.status === 201) {
                 const response = JSON.parse(this.responseText);
                 console.log(response);
-                showMessage('success', `Person with id=${person.Id} added successfully!`);
-                setTableHeaderToDefault();
-                getAllPeople();
+                showMessage('success', `Person added successfully!`);
             } else {
                 if (this.status === 400) {
                     showMessage('error', 'Bad request. Please check the data.');
@@ -430,12 +429,11 @@ function addPersonXml(person) {
     console.log(person);
     xhr.onreadystatechange = function() {
         if (this.readyState === 4) {
-            if (this.status === 200) {
+            getAllPeople();
+            if (this.status === 200 || this.status === 201) {
                 const response = this.responseXML;
                 console.log(response);
-                showMessage('success', `Person with id=${person.Id} added successfully!`);
-                setTableHeaderToDefault();
-                getAllPeople();
+                showMessage('success', `Person added successfully!`);
             } else {
                 if (this.status === 400) {
                     showMessage('error', 'Bad request. Please check the data.');
@@ -661,4 +659,15 @@ function hideMessage() {
     const message = document.getElementById('message');
     message.classList.remove('show');
 }
+
+function myDataInfo() {
+    console.log("Zuzanna Sikorska, 260464");
+    console.log("Piotr Łazik, 260371");
+    console.log(new Date().toLocaleString("pl-PL"));
+    console.log(navigator.userAgent);
+    console.log(navigator.platform);
+    console.log();
+}
+
+myDataInfo();
 

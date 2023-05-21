@@ -118,6 +118,7 @@ namespace MyWebService
             item.Id = id++;
 
             persons.Add(item);
+            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Created;
             return "Dodano nową osobę z ID=" + item.Id;
         }
         private string editPerson(Person item)
