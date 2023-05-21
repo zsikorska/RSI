@@ -63,6 +63,14 @@ function createInputLabel(labelText, inputId, inputType, isRequired, min, max) {
     inputsContainer.appendChild(document.createElement("br"));
 }
 
+function setTableHeaderToDefault() {
+    const tableHeader = document.getElementById("persons-table-header");
+    tableHeader.innerHTML = "";
+    const headerRow = document.createElement("tr");
+    headerRow.innerHTML = `<th>Id</th><th>Name</th><th>Age</th><th>Email</th>`;
+    tableHeader.appendChild(headerRow);
+}
+
 function createXmlPerson(person) {
     let payload = "<Person xmlns=\"http://schemas.datacontract.org/2004/07/MyWebService\">";
     payload += "<Id>" + person.Id + "</Id>";
@@ -90,6 +98,7 @@ function getAllPeopleJson() {
         if (this.readyState === 4 && this.status === 200) {
             const response = JSON.parse(this.responseText);
             console.log(response);
+            setTableHeaderToDefault();
 
             const tableBody = document.getElementById("persons-list");
             tableBody.innerHTML = "";
@@ -114,6 +123,7 @@ function getAllPeopleXml() {
             const response = this.responseXML;
             console.log(response);
             const persons = response.getElementsByTagName("Person");
+            setTableHeaderToDefault();
 
             const tableBody = document.getElementById("persons-list");
             tableBody.innerHTML = "";
@@ -157,6 +167,7 @@ const xhr = new XMLHttpRequest();
         if (this.readyState === 4 && this.status === 200) {
             const response = JSON.parse(this.responseText);
             console.log(response);
+            setTableHeaderToDefault();
 
             const tableBody = document.getElementById("persons-list");
             tableBody.innerHTML = "";
@@ -178,6 +189,7 @@ function getPersonByIdXml() {
         if (this.readyState === 4 && this.status === 200) {
             const response = this.responseXML;
             console.log(response);
+            setTableHeaderToDefault();
 
             const tableBody = document.getElementById("persons-list");
             tableBody.innerHTML = "";
@@ -221,6 +233,7 @@ function getPeopleByNameJson() {
         if (this.readyState === 4 && this.status === 200) {
             const response = JSON.parse(this.responseText);
             console.log(response);
+            setTableHeaderToDefault();
 
             const tableBody = document.getElementById("persons-list");
             tableBody.innerHTML = "";
@@ -246,6 +259,7 @@ function getPeopleByNameXml() {
             const response = this.responseXML;
             console.log(response);
             const persons = response.getElementsByTagName("Person");
+            setTableHeaderToDefault();
 
             const tableBody = document.getElementById("persons-list");
             tableBody.innerHTML = "";
@@ -361,6 +375,7 @@ function addPersonJson(person) {
         if (this.readyState === 4 && this.status === 200) {
             const response = JSON.parse(this.responseText);
             console.log(response);
+            setTableHeaderToDefault();
             getAllPeople();
         }
     };
@@ -378,6 +393,7 @@ function addPersonXml(person) {
         if (this.readyState === 4 && this.status === 200) {
             const response = this.responseXML;
             console.log(response);
+            setTableHeaderToDefault();
             getAllPeople();
         }
     };
@@ -415,6 +431,7 @@ function updatePersonJson(person) {
         if (this.readyState === 4 && this.status === 200) {
             const response = JSON.parse(this.responseText);
             console.log(response);
+            setTableHeaderToDefault();
             getAllPeople();
         }
     };
@@ -433,6 +450,7 @@ function updatePersonXml(person) {
         if (this.readyState === 4 && this.status === 200) {
             const response = this.responseXML;
             console.log(response);
+            setTableHeaderToDefault();
             getAllPeople();
         }
     };
@@ -469,6 +487,7 @@ function deletePersonJson(id) {
         if (this.readyState === 4 && this.status === 200) {
             const response = JSON.parse(this.responseText);
             console.log(response);
+            setTableHeaderToDefault();
             getAllPeople();
         }
     };
@@ -484,6 +503,7 @@ function deletePersonXml(id) {
         if (this.readyState === 4 && this.status === 200) {
             const response = this.responseXML;
             console.log(response);
+            setTableHeaderToDefault();
             getAllPeople();
         }
     };
