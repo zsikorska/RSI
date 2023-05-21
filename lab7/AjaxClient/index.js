@@ -160,21 +160,35 @@ function getPersonById() {
 }
 
 function getPersonByIdJson() {
-const xhr = new XMLHttpRequest();
-    const endpoint = JSON_URL + "/persons/" + document.getElementById("id").value;
+    const xhr = new XMLHttpRequest();
+    const id = document.getElementById("id").value;
+    const endpoint = JSON_URL + "/persons/" + id;
     console.log(endpoint);
     xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            const response = JSON.parse(this.responseText);
-            console.log(response);
-            setTableHeaderToDefault();
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                const response = JSON.parse(this.responseText);
+                console.log(response);
+                showMessage('success', `Person with id=${id} found.`)
+                setTableHeaderToDefault();
 
-            const tableBody = document.getElementById("persons-list");
-            tableBody.innerHTML = "";
+                const tableBody = document.getElementById("persons-list");
+                tableBody.innerHTML = "";
 
-            const row = document.createElement("tr");
-            row.innerHTML = `<td>${response.Id}</td><td>${response.Name}</td><td>${response.Age}</td><td>${response.Email}</td>`;
-            tableBody.appendChild(row);
+                const row = document.createElement("tr");
+                row.innerHTML = `<td>${response.Id}</td><td>${response.Name}</td><td>${response.Age}</td><td>${response.Email}</td>`;
+                tableBody.appendChild(row);
+            } else {
+                setTableHeaderToDefault();
+                const tableBody = document.getElementById("persons-list");
+                tableBody.innerHTML = "";
+                if (this.status === 404) {
+                    showMessage('error', `A person with this id=${id} does not exist.`);
+                }
+                else {
+                    showMessage('error', 'An error occurred. Please try again later.');
+                }
+            }
         }
     };
     xhr.open("GET", endpoint, true);
@@ -183,25 +197,38 @@ const xhr = new XMLHttpRequest();
 
 function getPersonByIdXml() {
     const xhr = new XMLHttpRequest();
-    const endpoint = XML_URL + "/persons/" + document.getElementById("id").value;
+    const id = document.getElementById("id").value;
+    const endpoint = XML_URL + "/persons/" + id;
     console.log(endpoint);
     xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            const response = this.responseXML;
-            console.log(response);
-            setTableHeaderToDefault();
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                const response = this.responseXML;
+                console.log(response);
+                showMessage('success', `Person with id=${id} found.`)
+                const person = response.getElementsByTagName("Person")[0];
+                setTableHeaderToDefault();
 
-            const tableBody = document.getElementById("persons-list");
-            tableBody.innerHTML = "";
+                const tableBody = document.getElementById("persons-list");
+                tableBody.innerHTML = "";
 
-            const person = response.getElementsByTagName("Person")[0];
-            const row = document.createElement("tr");
-            row.innerHTML = `
+                const row = document.createElement("tr");
+                row.innerHTML = `
                     <td>${person.getElementsByTagName("Id")[0].textContent}</td>
                     <td>${person.getElementsByTagName("Name")[0].textContent}</td>
                     <td>${person.getElementsByTagName("Age")[0].textContent}</td>
                     <td>${person.getElementsByTagName("Email")[0].textContent}</td>`;
-            tableBody.appendChild(row);
+                tableBody.appendChild(row);
+            } else {
+                const tableBody = document.getElementById("persons-list");
+                tableBody.innerHTML = "";
+                if (this.status === 404) {
+                    showMessage('error', `A person with this id=${id} does not exist.`);
+                }
+                else {
+                    showMessage('error', 'An error occurred. Please try again later.');
+                }
+            }
         }
     };
     xhr.open("GET", endpoint, true);
@@ -372,11 +399,23 @@ function addPersonJson(person) {
     console.log(person);
     console.log(JSON.stringify(person));
     xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            const response = JSON.parse(this.responseText);
-            console.log(response);
-            setTableHeaderToDefault();
-            getAllPeople();
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                const response = JSON.parse(this.responseText);
+                console.log(response);
+                showMessage('success', `Person with id=${person.Id} added successfully!`);
+                setTableHeaderToDefault();
+                getAllPeople();
+            } else {
+                if (this.status === 400) {
+                    showMessage('error', 'Bad request. Please check the data.');
+                } else if (this.status === 409) {
+                    showMessage('error', `A person with name=${person.Name}, age=${person.Age}, email=${person.Email} already exists.`);
+                }
+                else {
+                    showMessage('error', 'An error occurred. Please try again later.');
+                }
+            }
         }
     };
     xhr.open("POST", endpoint, true);
@@ -390,11 +429,23 @@ function addPersonXml(person) {
     console.log(endpoint);
     console.log(person);
     xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            const response = this.responseXML;
-            console.log(response);
-            setTableHeaderToDefault();
-            getAllPeople();
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                const response = this.responseXML;
+                console.log(response);
+                showMessage('success', `Person with id=${person.Id} added successfully!`);
+                setTableHeaderToDefault();
+                getAllPeople();
+            } else {
+                if (this.status === 400) {
+                    showMessage('error', 'Bad request. Please check the data.');
+                } else if (this.status === 409) {
+                    showMessage('error', `A person with name=${person.Name}, age=${person.Age}, email=${person.Email} already exists.`);
+                }
+                else {
+                    showMessage('error', 'An error occurred. Please try again later.');
+                }
+            }
         }
     };
     xhr.open("POST", endpoint, true);
@@ -428,11 +479,20 @@ function updatePersonJson(person) {
     console.log(person);
     console.log(JSON.stringify(person));
     xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            const response = JSON.parse(this.responseText);
-            console.log(response);
-            setTableHeaderToDefault();
+        if (this.readyState === 4) {
             getAllPeople();
+            if (this.status === 200) {
+                const response = JSON.parse(this.responseText);
+                console.log(response);
+                showMessage('success', `Person with id=${person.Id} updated successfully!`);
+            } else {
+                if (this.status === 404) {
+                    showMessage('error', `A person with id=${person.Id} does not exist.`);
+                }
+                else {
+                    showMessage('error', 'An error occurred. Please try again later.');
+                }
+            }
         }
     };
     xhr.open("PUT", endpoint, true);
@@ -447,11 +507,20 @@ function updatePersonXml(person) {
     console.log(person);
     console.log(JSON.stringify(person));
     xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            const response = this.responseXML;
-            console.log(response);
-            setTableHeaderToDefault();
+        if (this.readyState === 4) {
             getAllPeople();
+            if (this.status === 200) {
+                const response = this.responseXML;
+                console.log(response);
+                showMessage('success', `Person with id=${person.Id} updated successfully!`);
+            } else {
+                if (this.status === 404) {
+                    showMessage('error', `A person with id=${person.Id} does not exist.`);
+                }
+                else {
+                    showMessage('error', 'An error occurred. Please try again later.');
+                }
+            }
         }
     };
     xhr.open("PUT", endpoint, true);
@@ -484,11 +553,20 @@ function deletePersonJson(id) {
     const endpoint = JSON_URL + "/persons/" + id;
     console.log(endpoint);
     xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            const response = JSON.parse(this.responseText);
-            console.log(response);
-            setTableHeaderToDefault();
+        if (this.readyState === 4) {
             getAllPeople();
+            if (this.status === 200) {
+                const response = JSON.parse(this.responseText);
+                console.log(response);
+                showMessage('success', `Person with id=${id} deleted successfully!`);
+            } else {
+                if (this.status === 404) {
+                    showMessage('error', `A person with id=${id} does not exist.`);
+                }
+                else {
+                    showMessage('error', 'An error occurred. Please try again later.');
+                }
+            }
         }
     };
     xhr.open("DELETE", endpoint, true);
@@ -500,11 +578,20 @@ function deletePersonXml(id) {
     const endpoint = XML_URL + "/persons/" + id;
     console.log(endpoint);
     xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            const response = this.responseXML;
-            console.log(response);
-            setTableHeaderToDefault();
+        if (this.readyState === 4) {
             getAllPeople();
+            if (this.status === 200) {
+                const response = this.responseXML;
+                console.log(response);
+                showMessage('success', `Person with id=${id} deleted successfully!`);
+            } else {
+                if (this.status === 404) {
+                    showMessage('error', `A person with id=${id} does not exist.`);
+                }
+                else {
+                    showMessage('error', 'An error occurred. Please try again later.');
+                }
+            }
         }
     };
     xhr.open("DELETE", endpoint, true);
@@ -522,6 +609,7 @@ document.getElementById("deleteBtn").addEventListener("click", function() {
 document.getElementById("changeFormatBtn").addEventListener("click", function() {
     hideForm();
     changeFormat();
+    showMessage('success', 'Format changed successfully!');
 });
 
 
@@ -557,4 +645,20 @@ document.getElementById("submitBtn").addEventListener("click", function() {
 });
 
 
+function showMessage(type, text) {
+    const message = document.getElementById('message');
+    message.textContent = text;
+    message.classList.remove('error-message', 'success-message');
+    message.classList.add(type + '-message');
+    message.classList.add('show');
+
+    setTimeout(() => {
+        hideMessage();
+    }, 4000);
+}
+
+function hideMessage() {
+    const message = document.getElementById('message');
+    message.classList.remove('show');
+}
 
