@@ -7,7 +7,8 @@ To have communication between two computers:
 ```
 and in project's options -> Internet -> Servers -> IIS Express change project's URL address to have there server's ip instead of localhost.
 
-- in client's code change channel in `Program.cs` file to:
+- in client's code change urls in `index.js` file to:
 ```
-static string uri = "http://<server's ip>:2119/MyRestService.svc";
+const JSON_URL = "http://<server's ip>:2119/MyRestService.svc/json";
+const XML_URL = "http://<server's ip>:2119/MyRestService.svc";
 ```

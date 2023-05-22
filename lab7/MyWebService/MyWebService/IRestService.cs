@@ -66,6 +66,15 @@ namespace MyWebService
         [OperationContract]
         [WebGet(UriTemplate = "/json/persons/name/{name}", ResponseFormat = WebMessageFormat.Json)]
         List<Person> getByNameJson(string Name);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/authors", ResponseFormat = WebMessageFormat.Xml)]
+        string getAuthorsXml();
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/json/authors", ResponseFormat = WebMessageFormat.Json)]
+        string getAuthorsJson();
+
     }
 
 

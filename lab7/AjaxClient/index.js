@@ -1,5 +1,5 @@
-const JSON_URL = "http://localhost:2119/MyRestService.svc/json";
-const XML_URL = "http://localhost:2119/MyRestService.svc";
+const JSON_URL = "http://10.182.127.200:2119/MyRestService.svc/json";
+const XML_URL = "http://10.182.127.200:2119/MyRestService.svc";
 
 let currentFormat = "json";
 
@@ -670,4 +670,81 @@ function myDataInfo() {
 }
 
 myDataInfo();
+
+document.getElementById("printAuthorsBtn").addEventListener("click", function() {
+    hideForm();
+    printAuthors();
+});
+
+
+function printAuthors(){
+    if (currentFormat === "json") {
+        printAuthorsJson();
+    }
+    else {
+        printAuthorsXml();
+    }
+}
+
+function printAuthorsJson() {
+    const xhr = new XMLHttpRequest();
+    const endpoint = JSON_URL + "/authors";
+    console.log(endpoint);
+    xhr.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                const response = JSON.parse(this.responseText);
+                console.log(response);
+
+                const tableHeader = document.getElementById("persons-table-header");
+                tableHeader.innerHTML = "";
+                const headerRow = document.createElement("tr");
+                headerRow.innerHTML = `<th>Authors</th>`;
+                tableHeader.appendChild(headerRow);
+
+                const tableBody = document.getElementById("persons-list");
+                tableBody.innerHTML = "";
+
+                const row = document.createElement("tr");
+                row.innerHTML = `<td>${response}</td>`;
+                tableBody.appendChild(row);
+            } else {
+                showMessage('error', 'An error occurred. Please try again later.');
+            }
+        }
+    };
+    xhr.open("GET", endpoint, true);
+    xhr.send();
+}
+
+function printAuthorsXml() {
+    const xhr = new XMLHttpRequest();
+    const endpoint = XML_URL + "/authors";
+    console.log(endpoint);
+    xhr.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                const response = this.responseXML;
+                console.log(response);
+
+                const tableHeader = document.getElementById("persons-table-header");
+                tableHeader.innerHTML = "";
+                const headerRow = document.createElement("tr");
+                headerRow.innerHTML = `<th>Authors</th>`;
+                tableHeader.appendChild(headerRow);
+
+                const tableBody = document.getElementById("persons-list");
+                tableBody.innerHTML = "";
+
+                const row = document.createElement("tr");
+                row.innerHTML = `<td>${response.getElementsByTagName("string")[0].textContent}</td>`;
+                tableBody.appendChild(row);
+            } else {
+                showMessage('error', 'An error occurred. Please try again later.');
+            }
+        }
+    };
+    xhr.open("GET", endpoint, true);
+    xhr.send();
+}
 

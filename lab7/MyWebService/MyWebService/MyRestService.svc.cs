@@ -105,6 +105,20 @@ namespace MyWebService
             return getSizeXml();
         }
 
+        private string getAuthors()
+        {
+            return "Zuzanna Sikorska, 260464; Piotr Łazik, 260371";
+        }
+
+        public string getAuthorsXml()
+        {
+            return getAuthors();
+        }
+
+        public string getAuthorsJson()
+        {
+            return getAuthors();
+        }
 
         private string addPerson(Person item)
         {
