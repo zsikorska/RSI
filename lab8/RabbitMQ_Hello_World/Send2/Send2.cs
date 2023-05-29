@@ -1,7 +1,8 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
+using System.Threading;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using Receive;
+using Send2;
 
 MyData.Info();
 
@@ -20,18 +21,20 @@ channel.QueueDeclare(queue: "hello",
                      autoDelete: false,
                      arguments: null);
 
-Console.WriteLine(" [*] Waiting for messages.");
+int maxSeconds = 6;
 
-var consumer = new EventingBasicConsumer(channel);
-consumer.Received += (model, ea) =>
+for (int i = 0; i < 5; i++)
 {
-    var body = ea.Body.ToArray();
-    var message = Encoding.UTF8.GetString(body);
-    Console.WriteLine($" [x] Received {message}");
-};
-channel.BasicConsume(queue: "hello",
-                     autoAck: true,
-                     consumer: consumer);
+    var message = $"Zuzanna msg_number: {i}";
+    channel.BasicPublish(exchange: string.Empty,
+                         routingKey: "hello",
+                         basicProperties: null,
+                         body: Encoding.UTF8.GetBytes(message));
+
+    Console.WriteLine($" [x] Sent {message}");
+    Thread.Sleep(new Random().Next(maxSeconds) * 1000);
+}
+
 
 Console.WriteLine(" Press [enter] to exit.");
 Console.ReadLine();
